@@ -12,7 +12,7 @@ Latest development year: 2018.
 ## Installation
 To clone the repository:
 ```bash
-git remote add origin https://github.com/Eaglestrike/Eaglescout.git
+git clone https://github.com/Eaglestrike/Eaglescout.git
 ```
 To install node modules:
 ```bash
