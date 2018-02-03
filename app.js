@@ -76,9 +76,3 @@ app.set('port', (3000));
 app.listen(app.get('port'), function(){
 	console.log('Eaglescout started on port ' + app.get('port'));
 });
-
-function getPath(url) {
-  if (url.substring(0, 1) == "/") url = url.substring(1);
-  if (url.substring(-1) == "/") url = url.substring(0, -1);
-  return url.split("/");
-}
