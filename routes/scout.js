@@ -43,4 +43,8 @@ router.get('/list', function(req, res) {
 	res.render('list');
 });
 
+router.get('/new', function(req, res) {
+	res.render('new');
+});
+
 module.exports = router;

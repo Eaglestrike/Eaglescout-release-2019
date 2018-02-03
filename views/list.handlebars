@@ -8,25 +8,37 @@
 </nav>
 
 {{#if success_msg}}
-<div class="row">
-    <div class="info-message green white-text">
-        {{success_msg}}
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <div class="row">
+            <div class="info-message green white-text">
+                {{success_msg}}
+            </div>
+        </div>
     </div>
 </div>
 {{/if}}
 
 {{#if error_msg}}
-<div class="row">
-    <div class="info-message red darken-1 white-text">
-        {{error_msg}}
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <div class="row">
+            <div class="info-message red darken-1 white-text">
+                {{error_msg}}
+            </div>
+        </div>
     </div>
 </div>
 {{/if}}
 
 {{#if error}}
-<div class="row">
-    <div class="info-message red darken-1 white-text">
-        {{error}}
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <div class="row">
+            <div class="info-message red darken-1 white-text">
+                {{error}}
+            </div>
+        </div>
     </div>
 </div>
 {{/if}}
