@@ -2,12 +2,16 @@ var express = require('express');
 var router = express.Router();
 var User = require("../models/user");
 
-router.get('/', function(req, res) {
-	res.render('scout');
-});
-
 router.get('/register', function(req, res) {
 	res.render('register');
+});
+
+router.get('/list', function(req, res) {
+	res.render('list');
+});
+
+router.get('/new', function(req, res) {
+	res.render('new');
 });
 
 router.post('/register', function(req, res) {
@@ -39,12 +43,8 @@ router.post('/register', function(req, res) {
 	}
 });
 
-router.get('/list', function(req, res) {
-	res.render('list');
-});
-
-router.get('/new', function(req, res) {
-	res.render('new');
+router.get('/', function(req, res) {
+	res.render('scout');
 });
 
 module.exports = router;

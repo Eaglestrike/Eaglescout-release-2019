@@ -11,9 +11,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/loginapp');
+mongoose.connect('mongodb://localhost/eaglescout');
 var db = mongoose.connection;
-
 var login = require('./routes/login');
 var scout = require('./routes/scout');
 
