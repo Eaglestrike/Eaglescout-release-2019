@@ -8,9 +8,12 @@ router.get('/', function(req, res) {
 	res.render('login');
 });
 
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy({
+		usernameField: 'email',
+		passwordField: 'password'
+	},
 	function(email, password, done) {
-		User.getUserByEmail(email, function(err, usr) {
+		User.getUserByEmail(email, function(err, user) {
 			if (err) throw err;
 			if (!user) return done(null, false, {message: "Unknown user."});
 			User.comparePassword(password, user.password, function(error, isMatch) {
