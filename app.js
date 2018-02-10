@@ -15,6 +15,7 @@ mongoose.connect('mongodb://localhost/eaglescout');
 var db = mongoose.connection;
 var login = require('./routes/login');
 var scout = require('./routes/scout');
+var admin = require('./routes/admin');
 
 var app = express();
 
@@ -66,9 +67,11 @@ app.use(function (req, res, next) {
 
 app.use('/', login);
 app.use('/scout', scout);
-app.use('/scout/register', scout);
 app.use('/scout/list', scout);
 app.use('/scout/new', scout);
+app.use('/admin', admin);
+app.use('/admin/register', admin);
+app.use('/admin/event', admin);
 
 app.set('port', (3000));
 

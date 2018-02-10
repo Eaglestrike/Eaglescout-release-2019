@@ -14,3 +14,12 @@ module.exports.redirectIfLoggedIn = function(req, res, next) {
 		return next();
 	}
 }
+
+module.exports.ensureAdmin = function(req, res, next) {
+	if (req.isAuthenticated() && res.locals.user.admin) {
+		return next();
+	} else {
+		req.flash('error_msg', 'You are not an admin.');
+		res.redirect('/scout');
+	}
+}
