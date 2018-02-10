@@ -3,8 +3,9 @@ var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var User = require("../models/user");
+var utils = require("../utils.js");
 
-router.get('/', function(req, res) {
+router.get('/', utils.redirectIfLoggedIn, function(req, res) {
 	res.render('login');
 });
 
@@ -40,5 +41,20 @@ router.post('/',
   function(req, res) {
     res.redirect('/scout');
   });
+
+router.get('/logout', function(req, res) {
+	req.logout();
+	req.flash('success_msg', 'Successfully logged out.');
+	res.redirect('/');
+});
+
+function ensureAuthenticated(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	} else {
+		req.flash('error_msg', 'You are not logged in.');
+		res.redirect('/');
+	}
+}
 
 module.exports = router;

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require("../models/user");
+var utils = require("../utils.js");
 
 router.get('/register', function(req, res) {
 	res.render('register');
@@ -43,7 +44,7 @@ router.post('/register', function(req, res) {
 	}
 });
 
-router.get('/', function(req, res) {
+router.get('/', utils.ensureAuthenticated, function(req, res) {
 	res.render('scout');
 });
 
