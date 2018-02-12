@@ -32,3 +32,6 @@
 	border: 2px solid red;
 	background-color: red;
 }
+.dropdown-content li > a, .dropdown-content li > span {
+	color: #1976d2;
+}

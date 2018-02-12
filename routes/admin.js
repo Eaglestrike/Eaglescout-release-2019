@@ -1,7 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var User = require("../models/user");
-var utils = require("../utils.js");
+const express = require('express');
+const router = express.Router();
+const User = require("../models/user");
+const utils = require("../utils");
+const TBA = require("../TBA");
 
 router.get('/register', utils.ensureAdmin, function(req, res) {
 	res.render('register');
@@ -41,7 +42,11 @@ router.get('/', utils.ensureAdmin, function(req, res) {
 });
 
 router.get('/event', utils.ensureAdmin, function(req, res) {
-	res.render('event');
+	TBA.getEvents((events) => {
+		res.render('event', {
+			events: events
+		});
+	});
 });
 
 module.exports = router;
