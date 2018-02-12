@@ -47,9 +47,18 @@
     <div class="container">
         <h1 class="header center blue-text text-darken-4">Eaglescout &bull; Change Event</h1>
         <br>
+        {{#if errors}}
+            {{#each errors}}
+            <div class="row">
+                <div class="info-message red darken-1 white-text">
+                    {{msg}}
+                </div>
+            </div>
+            {{/each}}
+        {{/if}}
         <form method="post" action="/admin/event">
             <div class="input-field col s12">
-                <select>
+                <select name="event">
                     <option value="" disabled selected>Choose event from list</option>
                     {{#if events}}
                         {{#each events}}

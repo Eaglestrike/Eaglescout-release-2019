@@ -49,4 +49,22 @@ router.get('/event', utils.ensureAdmin, function(req, res) {
 	});
 });
 
+router.post('/event', utils.ensureAdmin, function(req, res) {
+	var event = req.body.event;
+	req.checkBody('event', 'Please select an event!').notEmpty();
+
+	var errors = req.validationErrors();
+	if (errors) {
+		TBA.getEvents((events) => {
+			res.render('event', {
+				errors: errors,
+				events: events
+			});
+		});
+	} else {
+		req.flash('success_msg', 'Successfully changed event.');
+		res.redirect("/admin/event");
+	}
+});
+
 module.exports = router;
