@@ -3,6 +3,8 @@ const router = express.Router();
 const User = require("../models/user");
 const utils = require("../utils");
 const TBA = require("../TBA");
+const fs = require('fs');
+
 
 router.get('/register', utils.ensureAdmin, function(req, res) {
 	res.render('register');
@@ -62,8 +64,19 @@ router.post('/event', utils.ensureAdmin, function(req, res) {
 			});
 		});
 	} else {
-		req.flash('success_msg', 'Successfully changed event.');
-		res.redirect("/admin/event");
+		fs.readFile('state.db', function(err, buf) {
+			if (err) throw err;
+			
+			var json = JSON.parse(buf.toString());
+			json["current_event"] = event;
+
+			fs.writeFile('state.db', JSON.stringify(json), function(error, data) {
+				if (error) throw error;
+				
+				req.flash('success_msg', 'Successfully changed event.');
+				res.redirect("/admin/event");
+			});
+		});
 	}
 });
 
