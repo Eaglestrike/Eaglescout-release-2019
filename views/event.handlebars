@@ -59,10 +59,19 @@
         <form method="post" action="/admin/event">
             <div class="input-field col s12">
                 <select name="event">
-                    <option value="" disabled selected>Choose event from list</option>
+                    {{if currentEvent == null}}
+                        <option value="" disabled selected>Choose event from list</option>
+                    {{else}}
+                        <option value="" disabled>Choose event from list</option>
+                    {{/if}}
+
                     {{#if events}}
                         {{#each events}}
-                            <option value="{{ key }}">{{ name }}</option>
+                            {{#if key == currentEvent}}
+                                <option value="{{ key }}">{{ name }}</option>
+                            {{else}}
+                                
+                            {{/if}}
                         {{/each}}
                     {{/if}}
                 </select>

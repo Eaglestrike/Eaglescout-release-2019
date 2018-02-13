@@ -16,6 +16,7 @@ var db = mongoose.connection;
 var login = require('./routes/login');
 var scout = require('./routes/scout');
 var admin = require('./routes/admin');
+var utils = require('./utils');
 
 var app = express();
 
@@ -62,6 +63,7 @@ app.use(function (req, res, next) {
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
   res.locals.user = req.user || null;
+  res.locals.currentEvent = utils.event;
   next();
 });
 

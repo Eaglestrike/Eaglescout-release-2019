@@ -1,7 +1,7 @@
-module.exports.observationStructure =
-{
-	competition: String,
-	team: String
+module.exports = {
+	observationStructure: {
+		competition: String,
+		team: String
+	},
+	TBA_URL: "https://www.thebluealliance.com/api/v3"
 };
-
-module.exports.TBA_URL = "https://www.thebluealliance.com/api/v3";
