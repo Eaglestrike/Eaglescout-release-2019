@@ -24,11 +24,11 @@ module.exports = {
 			res.redirect('/scout');
 		}
 	},
-	event: (function() {
+	getCurrentEvent: function() {
 		var buffer = fs.readFileSync('state.db');
 		var json = JSON.parse(buffer.toString());
 		return json["current_event"];
-	})()
+	}
 };
 
 

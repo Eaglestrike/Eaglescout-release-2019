@@ -1,5 +1,6 @@
 const https = require("https");
 const config = require("./config");
+const utils = require("./utils");
 const keys = require("./keys");
 
 module.exports.getEvents = function(callback) {
@@ -14,7 +15,19 @@ module.exports.getEvents = function(callback) {
 			body += data;
 		});
 		res.on("end", () => {
-			var events = JSON.parse(body);
+			var data = JSON.parse(body);
+			var events = data.map(function (event) {
+				return {
+					"key": event.key,
+					"name": event.name,
+					"current": event.key == utils.getCurrentEvent()
+				}
+			});
+			events.splice(0, 0, {
+				"key": "practice",
+				"name": "Practice Competition",
+				"current": utils.getCurrentEvent() == "practice"
+			});
 			callback(events, null);
 		});
 	});

@@ -59,7 +59,7 @@
         <form method="post" action="/admin/event">
             <div class="input-field col s12">
                 <select name="event">
-                    {{if currentEvent == null}}
+                    {{#if currentlyCurrentEvent}}
                         <option value="" disabled selected>Choose event from list</option>
                     {{else}}
                         <option value="" disabled>Choose event from list</option>
@@ -67,10 +67,10 @@
 
                     {{#if events}}
                         {{#each events}}
-                            {{#if key == currentEvent}}
-                                <option value="{{ key }}">{{ name }}</option>
+                            {{#if current }}
+                                <option value="{{ key }}" selected>{{ name }}</option>
                             {{else}}
-                                
+                                <option value="{{ key }}">{{ name }}</option>
                             {{/if}}
                         {{/each}}
                     {{/if}}

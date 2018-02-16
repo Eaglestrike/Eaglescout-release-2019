@@ -35,3 +35,11 @@
 .dropdown-content li > a, .dropdown-content li > span {
 	color: #1976d2;
 }
+.content {
+  min-height: calc(100vh - 70px);
+}
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+}
