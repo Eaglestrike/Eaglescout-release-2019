@@ -1,5 +1,3 @@
-// pull schema from here
-// pull form structure from here
 // be able to handle submission of forms
 
 /********************
@@ -86,7 +84,7 @@ var observationFormSchema = {
 		title: "Test for number",
 		subtitle: "This is subtitle for number"
 	},
-	test_number: {
+	test_slider: {
 		type: String,
 		input: "slider",
 		data: {
