@@ -1,3 +1,5 @@
+var utils = require('./utils');
+var TBA = require('./TBA');
 // be able to handle submission of forms
 
 /********************
@@ -26,8 +28,8 @@ var observationFormSchema = {
 	},
 	team: {
 		type: String,
-		input: "dropdown",
-		placeholder: "Select a team",
+		input: "number",
+		placeholder: "Team number only",
 		title: "Team Number",
 		subtitle: "This is the team number that you are observing"
 	},
@@ -130,54 +132,57 @@ function getObservationFormSchema() {
 	return schema;
 }
 
-function getObservationFormHandlebarsHelper(payload, options) {
+function getObservationFormHandlebarsHelper(structure, options) {
 	var finalString = '<form method="post" action="/scout/new">\n<div class="container">\n<div class="row">';
-	for (var category in payload) {
+	for (var category in structure) {
 		finalString += '<p>';
-		finalString += '<b>' + payload[category].title + '</b>\n<br>\n' + payload[category].subtitle + '\n';
+		finalString += '<b>' + structure[category].title + '</b>\n<br>\n' + structure[category].subtitle + '\n';
 		finalString += '</p>';
 		if (category == "competition") {
-
-		} else if (category == "team") {
-
+			finalString += '<select name="competition">\n';
+			finalString += '<option value="" disabled ' + (utils.getCurrentEvent() == null ? 'selected' : '') + '>Choose event from list</option>\n';
+			for (var event in structure.events) {
+				finalString += '<option value="' + structure.events[event]["key"] + '"' + (structure.events[event]["current"] ? ' selected' : '') + '>' + structure.events[event]["name"] + '</option>\n';
+			}
+			finalString += '</select>\n';
 		} else {
-			if (payload[category].input == "dropdown") {
+			if (structure[category].input == "dropdown") {
 				finalString += '<select name="' + category + '">\n';
-				finalString += '<option value="" disabled selected>' + payload[category].placeholder + '</option>\n';
-				for (var option in payload[category].data) {
-					finalString += '<option value="' + option + '">' + (payload[category].data)[option] + '</option>\n';
+				finalString += '<option value="" disabled selected>' + structure[category].placeholder + '</option>\n';
+				for (var option in structure[category].data) {
+					finalString += '<option value="' + option + '">' + (structure[category].data)[option] + '</option>\n';
 				}
 				finalString += '</select>\n';
-			} else if (payload[category].input == "multiple_choice") {
-				for (var option in payload[category].data) {
+			} else if (structure[category].input == "multiple_choice") {
+				for (var option in structure[category].data) {
 					finalString += '<p>\n';
       				finalString += '<input class="with-gap" name="' + category + '" type="radio" id="' + option + '" />\n';
-      				finalString += '<label for="' + option + '">' + (payload[category].data)[option] + '</label>\n';
+      				finalString += '<label for="' + option + '">' + (structure[category].data)[option] + '</label>\n';
       				finalString += '</p>\n';
       			}
-			} else if (payload[category].input == "long_text") {
+			} else if (structure[category].input == "long_text") {
 				finalString += '<div class="input-field">\n';
 				finalString += '<textarea id="' + category + '" class="materialize-textarea"></textarea>\n';
           		finalString += '<label for="' + category + '">Message</label>\n';
           		finalString += '</div>\n';
-			} else if (payload[category].input == "short_text") {
+			} else if (structure[category].input == "short_text") {
 				finalString += '<div class="input-field">\n';
-				finalString += '<input placeholder="' + payload[category].placeholder + '" id="' + category + '" type="text">\n';
+				finalString += '<input placeholder="' + structure[category].placeholder + '" id="' + category + '" type="text">\n';
           		finalString += '</div>\n';
-			} else if (payload[category].input == "checkbox") {
-				for (var option in payload[category].data) {
+			} else if (structure[category].input == "checkbox") {
+				for (var option in structure[category].data) {
 					finalString += '<p>\n';
       				finalString += '<input type="checkbox" class="filled-in" name="' + category + '" id="' + option + '" />\n';
-      				finalString += '<label for="' + option + '">' + (payload[category].data)[option] + '</label>\n';
+      				finalString += '<label for="' + option + '">' + (structure[category].data)[option] + '</label>\n';
       				finalString += '</p>\n';
       			}
-			} else if (payload[category].input == "number") {
+			} else if (structure[category].input == "number") {
 				finalString += '<div class="input-field">\n';
-				finalString += '<input class="validate" placeholder="' + payload[category].placeholder + '" id="' + category + '" type="number">\n';
+				finalString += '<input class="validate" placeholder="' + structure[category].placeholder + '" id="' + category + '" type="number">\n';
           		finalString += '</div>\n';
-			} else if (payload[category].input == "slider") {
+			} else if (structure[category].input == "slider") {
 				finalString += '<p class="range-field">';
-			    finalString += '<input type="range" id="' + category + '" min="' + (payload[category].data)["min"] + '" max="' + (payload[category].data)["max"] + '" />';
+			    finalString += '<input type="range" id="' + category + '" min="' + (structure[category].data)["min"] + '" max="' + (structure[category].data)["max"] + '" />';
 			    finalString += '</p>';
 			}
 		}
