@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
-var config = require('../config');
+var observationForm = require('../observationForm');
 
-var ObservationSchema = mongoose.Schema(config.observationStructure);
+var ObservationSchema = mongoose.Schema(observationForm.getObservationFormSchema());
 
 var Observation = module.exports = mongoose.model('Observation', ObservationSchema);
 

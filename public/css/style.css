@@ -42,6 +42,7 @@
   position: fixed;
   bottom: 0;
   width: 100vw;
+  z-index: 9999;
 }
 [type="radio"]:checked + label::after, [type="radio"].with-gap:checked + label::before, [type="radio"].with-gap:checked + label::after {
 	border: 2px solid #1976d2;

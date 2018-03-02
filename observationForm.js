@@ -135,6 +135,7 @@ function getObservationFormSchema() {
 function getObservationFormHandlebarsHelper(structure, options) {
 	var finalString = '<form method="post" action="/scout/new">\n<div class="container">\n<div class="row">';
 	for (var category in structure) {
+		if (category == "events") continue;
 		finalString += '<p>';
 		finalString += '<b>' + structure[category].title + '</b>\n<br>\n' + structure[category].subtitle + '\n';
 		finalString += '</p>';
@@ -162,12 +163,12 @@ function getObservationFormHandlebarsHelper(structure, options) {
       			}
 			} else if (structure[category].input == "long_text") {
 				finalString += '<div class="input-field">\n';
-				finalString += '<textarea id="' + category + '" class="materialize-textarea"></textarea>\n';
+				finalString += '<textarea name="' + category + '" class="materialize-textarea"></textarea>\n';
           		finalString += '<label for="' + category + '">Message</label>\n';
           		finalString += '</div>\n';
 			} else if (structure[category].input == "short_text") {
 				finalString += '<div class="input-field">\n';
-				finalString += '<input placeholder="' + structure[category].placeholder + '" id="' + category + '" type="text">\n';
+				finalString += '<input placeholder="' + structure[category].placeholder + '" name="' + category + '" type="text">\n';
           		finalString += '</div>\n';
 			} else if (structure[category].input == "checkbox") {
 				for (var option in structure[category].data) {
@@ -178,17 +179,17 @@ function getObservationFormHandlebarsHelper(structure, options) {
       			}
 			} else if (structure[category].input == "number") {
 				finalString += '<div class="input-field">\n';
-				finalString += '<input class="validate" placeholder="' + structure[category].placeholder + '" id="' + category + '" type="number">\n';
+				finalString += '<input class="validate" placeholder="' + structure[category].placeholder + '" name="' + category + '" type="number">\n';
           		finalString += '</div>\n';
 			} else if (structure[category].input == "slider") {
 				finalString += '<p class="range-field">';
-			    finalString += '<input type="range" id="' + category + '" min="' + (structure[category].data)["min"] + '" max="' + (structure[category].data)["max"] + '" />';
+			    finalString += '<input type="range" name="' + category + '" min="' + (structure[category].data)["min"] + '" max="' + (structure[category].data)["max"] + '" />';
 			    finalString += '</p>';
 			}
 		}
 		finalString += '<br>';
 	}
-	finalString += '</div>\n</div>\n</form>';
+	finalString += '</div>\n</div>\n<div class="center">\n<button class="btn waves-effect waves-light green" type="submit" name="action">Submit</button>\n</div>\n</form>';
 	return finalString;
 }
 
