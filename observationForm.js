@@ -70,6 +70,7 @@ var observationFormSchema = {
 	test_checkbox: {
 		type: String,
 		input: "checkbox",
+		placeholder: "This is a test!",
 		data: {
 			"check1": "Check 1",
 			"check2": "Check 2",
@@ -157,7 +158,7 @@ function getObservationFormHandlebarsHelper(structure, options) {
 			} else if (structure[category].input == "multiple_choice") {
 				for (var option in structure[category].data) {
 					finalString += '<p>\n';
-      				finalString += '<input class="with-gap" name="' + category + '" type="radio" id="' + option + '" />\n';
+      				finalString += '<input class="with-gap" name="' + category + '" value="' + option + '" type="radio" id="' + option + '" />\n';
       				finalString += '<label for="' + option + '">' + (structure[category].data)[option] + '</label>\n';
       				finalString += '</p>\n';
       			}
@@ -171,12 +172,12 @@ function getObservationFormHandlebarsHelper(structure, options) {
 				finalString += '<input placeholder="' + structure[category].placeholder + '" name="' + category + '" type="text">\n';
           		finalString += '</div>\n';
 			} else if (structure[category].input == "checkbox") {
+				finalString += '<select name="' + category + '" multiple>\n';
+				finalString += '<option value="" disabled selected>' + structure[category].placeholder + '</option>\n';
 				for (var option in structure[category].data) {
-					finalString += '<p>\n';
-      				finalString += '<input type="checkbox" class="filled-in" name="' + category + '" id="' + option + '" />\n';
-      				finalString += '<label for="' + option + '">' + (structure[category].data)[option] + '</label>\n';
-      				finalString += '</p>\n';
-      			}
+					finalString += '<option value="' + option + '">' + (structure[category].data)[option] + '</option>\n';
+				}
+				finalString += '</select>\n';
 			} else if (structure[category].input == "number") {
 				finalString += '<div class="input-field">\n';
 				finalString += '<input class="validate" placeholder="' + structure[category].placeholder + '" name="' + category + '" type="number">\n';
