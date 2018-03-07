@@ -26,6 +26,13 @@ var observationFormSchema = {
 		title: "Current competition",
 		subtitle: "If you're at a practice match, select \"Practice Match\""
 	},
+	match: {
+		type: String,
+		input: "number",
+		placeholder: "Match number only",
+		title: "Match Number",
+		subtitle: "This is the number of the match that you are observing"
+	},
 	team: {
 		type: String,
 		input: "number",
@@ -33,70 +40,146 @@ var observationFormSchema = {
 		title: "Team Number",
 		subtitle: "This is the team number that you are observing"
 	},
-	test_dropdown: {
-		type: String,
-		input: "dropdown",
-		data: {
-			"key1": "Value 1",
-			"key2": "Value 2"
-		},
-		placeholder: "This is a test!",
-		title: "Test for dropdown",
-		subtitle: "This is subtitle for dropdown"
-	},
-	test_mult: {
+	auto_cross_line: {
 		type: String,
 		input: "multiple_choice",
 		data: {
-			"key1": "Value 1",
-			"key2": "Value 2"
+			"yes": "Yes",
+			"no": "No"
 		},
-		title: "Test for multiple choice",
-		subtitle: "This is subtitle for multiple choice"
+		title: "[Auto] Crossed auto line?",
+		subtitle: "Did the bot cross the auto line during auto?"
 	},
-	test_long_text: {
+	auto_scale_cubes: {
+		type: String,
+		input: "multiple_choice",
+		data: {
+			"yes": "Yes",
+			"no": "No",
+			"attempted": "Attempted and failed"
+		},
+		title: "[Auto] Did the bot put cubes on scale?",
+		subtitle: "Did the bot put cubes on the scale during auto?"
+	},
+	auto_switch_cubes: {
+		type: String,
+		input: "multiple_choice",
+		data: {
+			"yes": "Yes",
+			"no": "No",
+			"attempted": "Attempted and failed"
+		},
+		title: "[Auto] Did the bot put cubes on switch?",
+		subtitle: "Did the bot put cubes on the switch during auto?"
+	},
+	auto_comments: {
 		type: String,
 		input: "long_text",
-		title: "Test for long text",
-		subtitle: "This is subtitle for long text"
+		title: "[Auto] Any extra comments about auto?",
+		subtitle: "Put anything that would be noteworthy about auto here."
 	},
-	test_short_text: {
-		type: String,
-		input: "short_text",
-		placeholder: "This is a placeholder",
-		title: "Test for short text",
-		subtitle: "This is subtitle for short text"
-	},
-	test_checkbox: {
-		type: String,
-		input: "checkbox",
-		placeholder: "This is a test!",
-		data: {
-			"check1": "Check 1",
-			"check2": "Check 2",
-			"check3": "Check 3",
-			"check4": "Check 4"
-		},
-		title: "Test for checkbox",
-		subtitle: "This is subtitle for checkbox"
-	},
-	test_number: {
+	teleop_scale_cubes: {
 		type: String,
 		input: "number",
-		placeholder: "This is a number",
-		title: "Test for number",
-		subtitle: "This is subtitle for number"
+		placeholder: "Number only",
+		title: "[Teleop] Number of cubes on scale",
+		subtitle: "Put the number of cubes they put on the scale here"
 	},
-	test_slider: {
+	teleop_switch_cubes: {
+		type: String,
+		input: "number",
+		placeholder: "Number only",
+		title: "[Teleop] Number of cubes on switch",
+		subtitle: "Put the number of cubes they put on the switch here"
+	},
+	teleop_exchange_cubes: {
+		type: String,
+		input: "number",
+		placeholder: "Number only",
+		title: "[Teleop] Number of cubes put in the exchange",
+		subtitle: "Put the number of cubes they put int the exchange/vault here"
+	},
+	teleop_cubes_dropped: {
+		type: String,
+		input: "number",
+		placeholder: "Number only",
+		title: "[Teleop] Number of cubes dropped",
+		subtitle: "Put the number of cubes that the robot dropped here"
+	},
+	teleop_robot_died: {
+		type: String,
+		input: "multiple_choice",
+		data: {
+			"yes": "Yes",
+			"no": "No"
+		},
+		title: "[Teleop] Did the robot die?",
+		subtitle: "If they did, note the time of death for the next question"
+	},
+	teleop_time_robot_died: {
+		type: String,
+		input: "number",
+		placeholder: "Format: number of seconds only",
+		title: "[Teleop] Time left when robot died",
+		subtitle: "If the robot didn't die, leave this blank"
+	},
+	driver_comments: {
+		type: String,
+		input: "long_text",
+		title: "[Driver] Comments about the driver",
+		subtitle: "Put comments about how much the driver is in control of the robot here. How skilled is the driver?"
+	},
+	time_on_defense: {
 		type: String,
 		input: "slider",
 		data: {
-			"min": 90,
+			"min": 0,
 			"max": 100
 		},
-		placeholder: "This is a slider",
-		title: "Test for slider",
-		subtitle: "This is subtitle for slider"
+		title: "[Defense] Percent of time on defense",
+		subtitle: "Approximate percent of time on defense"
+	},
+	speed: {
+		type: String,
+		input: "dropdown",
+		data: {
+			"very_slow": "Very slow (less than 5 ft/sec)",
+			"slow": "Slow (5 ft/sec to 12 ft/second)",
+			"medium": "Medium (14 ft/second to 18 ft/second)",
+			"fast": "Fast (18 ft/second to 25 ft/second)",
+			"very_fast": "Very Fast (more than 25 ft/second)"
+		},
+		placeholder: "Select one",
+		title: "[Bot] Speed compared to our robot (16 ft/second)",
+		subtitle: "Approximate this if you can"
+	},
+	endgame_successful_climb: {
+		type: String,
+		input: "multiple_choice",
+		data: {
+			"yes": "Yes",
+			"no": "No",
+			"attempted": "Attempted and failed"
+		},
+		title: "[Endgame] Successful climb?",
+		subtitle: "Did the robot climb successfully?"
+	},
+	endgame_help_others_climb: {
+		type: String,
+		input: "multiple_choice",
+		data: {
+			"yes": "Yes",
+			"no": "No",
+			"attempted": "Attempted and failed"
+		},
+		title: "[Endgame] Helped other robots with climb with a bar?",
+		subtitle: "Did the robot help other robots climb successfully?"
+	},
+	endgame_comments: {
+		type: String,
+		input: "long_text",
+		title: "[Endgame] Any extra comments about the end of the game?",
+		subtitle: "Put anything that would be noteworthy about the end of the game here."
 	}
 }
 
@@ -134,6 +217,8 @@ function getObservationFormSchema() {
 }
 
 function getObservationFormHandlebarsHelper(structure, options) {
+	var id = 0;
+
 	var finalString = '<form method="post" action="/scout/new">\n<div class="container">\n<div class="row">';
 	for (var category in structure) {
 		if (category == "events") continue;
@@ -158,8 +243,8 @@ function getObservationFormHandlebarsHelper(structure, options) {
 			} else if (structure[category].input == "multiple_choice") {
 				for (var option in structure[category].data) {
 					finalString += '<p>\n';
-      				finalString += '<input class="with-gap" name="' + category + '" value="' + option + '" type="radio" id="' + option + '" />\n';
-      				finalString += '<label for="' + option + '">' + (structure[category].data)[option] + '</label>\n';
+      				finalString += '<input class="with-gap" name="' + category + '" value="' + option + '" type="radio" id="' + option + '_' + id + '" />\n';
+      				finalString += '<label for="' + option + '_' + (id ++) + '">' + (structure[category].data)[option] + '</label>\n';
       				finalString += '</p>\n';
       			}
 			} else if (structure[category].input == "long_text") {

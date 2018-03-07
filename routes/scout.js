@@ -5,11 +5,16 @@ var utils = require("../utils");
 var TBA = require("../TBA");
 var observationForm = require("../observationForm.js");
 
-router.get('/list', utils.ensureAuthenticated, function(req, res) {
-	res.render('list');
+router.get('/list'/*, utils.ensureAuthenticated*/, function(req, res) {
+	Observation.find({}, function(err, observations) {
+		console.log(observations);
+		res.render('list', {
+			observations: observations
+		});
+	});
 });
 
-router.get('/new', utils.ensureAuthenticated, function(req, res) {
+router.get('/new'/*, utils.ensureAuthenticated*/, function(req, res) {
 	TBA.getEvents((events) => {
 		var structure = observationForm.getObservationFormStructure();
 		structure.events = events;
@@ -19,7 +24,7 @@ router.get('/new', utils.ensureAuthenticated, function(req, res) {
 	});
 });
 
-router.post('/new', utils.ensureAuthenticated, function(req, res) {
+router.post('/new'/*, utils.ensureAuthenticated*/, function(req, res) {
 	req.body.user = res.locals.user.email;
 	delete req.body.action;
 	var newObservation = new Observation(req.body);
@@ -32,7 +37,7 @@ router.post('/new', utils.ensureAuthenticated, function(req, res) {
 	res.redirect("/scout");
 });
 
-router.get('/', utils.ensureAuthenticated, function(req, res) {
+router.get('/'/*, utils.ensureAuthenticated*/, function(req, res) {
 	res.render('scout');
 });
 
