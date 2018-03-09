@@ -23,7 +23,8 @@ var app = express();
 var hbs = exphbs.create({
     defaultLayout: 'layout',
     helpers: {
-        observationForm: observationForm.getObservationFormHandlebarsHelper
+        observationForm: observationForm.getObservationFormHandlebarsHelper,
+        table: observationForm.getTableHandlebarsHelper
     }
 });
 

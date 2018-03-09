@@ -1,6 +1,5 @@
 var utils = require('./utils');
 var TBA = require('./TBA');
-// be able to handle submission of forms
 
 /********************
 * Types of inputs *
@@ -15,6 +14,98 @@ var TBA = require('./TBA');
 ********************/
 
 var observationFormSchema = {
+	team: {
+		name: "Team #",
+		data: "team"
+	},
+	image: {
+		name: "Image",
+		data: null
+	},
+	more: {
+		name: "More Info",
+		data: {
+			user: {
+				name: "User",
+				data: "user"
+			},
+			competition: {
+				name: "Competition",
+				data: "competition"
+			},
+			match: {
+				name: "Match Number",
+				data: "match"
+			},
+			auto_cross_line: {
+				name: "[Auto] Crossed auto line",
+				data: "auto_cross_line"
+			},
+			auto_scale_cubes: {
+				name: "[Auto] Bot put cubes on scale",
+				data: "auto_scale_cubes"
+			},
+			auto_switch_cubes: {
+				name: "[Auto] Bot put cubes on switch",
+				data: "auto_switch_cubes"
+			},
+			auto_comments: {
+				name: "[Auto] Extra comments",
+				data: "auto_comments"
+			},
+			teleop_scale_cubes: {
+				name: "[Teleop] Number of cubes on scale",
+				data: "teleop_scale_cubes"
+			},
+			teleop_switch_cubes: {
+				name: "[Teleop] Number of cubes on switch",
+				data: "teleop_switch_cubes"
+			},
+			teleop_exchange_cubes: {
+				name: "[Teleop] Number of cubes put in the exchange",
+				data: "teleop_exchange_cubes"
+			},
+			teleop_cubes_dropped: {
+				name: "[Teleop] Number of cubes dropped",
+				data: "teleop_cubes_dropped"
+			},
+			teleop_robot_died: {
+				name: "[Teleop] Robot died",
+				data: "teleop_robot_died"
+			},
+			teleop_time_robot_died: {
+				name: "[Teleop] Time left when robot died",
+				data: "teleop_time_robot_died"
+			},
+			driver_comments: {
+				name: "[Driver] Comments",
+				data: "driver_comments"
+			},
+			time_on_defense: {
+				name: "[Defense] Percent of time on defense",
+				data: "time_on_defense"
+			},
+			speed: {
+				name: "[Bot] Speed compared to our robot",
+				data: "speed"
+			},
+			endgame_successful_climb: {
+				name: "[Endgame] Successful climb",
+				data: "endgame_successful_climb"
+			},
+			endgame_help_others_climb: {
+				name: "[Endgame] Helped other robots with climb",
+				data: "endgame_help_others_climb"
+			},
+			endgame_comments: {
+				name: "[Endgame] Extra comments",
+				data: "endgame_comments"
+			}
+		}
+	}
+}
+
+var table_schema = {
 	user: {
 		type: String,
 		input: null
@@ -279,8 +370,17 @@ function getObservationFormHandlebarsHelper(structure, options) {
 	return finalString;
 }
 
+function getTableHandlebarsHelper(structure, options) {
+	var finalString = "<table>\n<thead>\n";
+	for (var category in structure) finalString += "<th>" + category["name"] + "</th>\n";
+	finalString += "</thead>\n";
+	return finalString;
+}
+
 module.exports = {
 	getObservationFormSchema: getObservationFormSchema,
 	getObservationFormStructure: getObservationFormStructure,
-	getObservationFormHandlebarsHelper: getObservationFormHandlebarsHelper
+	getObservationFormHandlebarsHelper: getObservationFormHandlebarsHelper,
+	getTableSchema: function() { return table_schema; },
+	getTableHandlebarsHelper: getTableHandlebarsHelper
 };

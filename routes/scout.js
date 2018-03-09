@@ -7,7 +7,6 @@ var observationForm = require("../observationForm.js");
 
 router.get('/list'/*, utils.ensureAuthenticated*/, function(req, res) {
 	Observation.find({}, function(err, observations) {
-		console.log(observations);
 		res.render('list', {
 			observations: observations
 		});
