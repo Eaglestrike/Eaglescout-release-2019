@@ -13,7 +13,7 @@ var TBA = require('./TBA');
 - slider [requires data]
 ********************/
 
-var observationFormSchema = {
+var tableStructure = {
 	team: {
 		name: "Team #",
 		data: "team"
@@ -105,7 +105,7 @@ var observationFormSchema = {
 	}
 }
 
-var table_schema = {
+var observationFormSchema = {
 	user: {
 		type: String,
 		input: null
@@ -374,6 +374,8 @@ function getTableHandlebarsHelper(structure, options) {
 	var finalString = "<table>\n<thead>\n";
 	for (var category in structure) finalString += "<th>" + category["name"] + "</th>\n";
 	finalString += "</thead>\n";
+	finalString += "</table>";
+	console.log(finalString);
 	return finalString;
 }
 
@@ -381,6 +383,6 @@ module.exports = {
 	getObservationFormSchema: getObservationFormSchema,
 	getObservationFormStructure: getObservationFormStructure,
 	getObservationFormHandlebarsHelper: getObservationFormHandlebarsHelper,
-	getTableSchema: function() { return table_schema; },
+	getTableStructure: function() { return tableStructure; },
 	getTableHandlebarsHelper: getTableHandlebarsHelper
 };
