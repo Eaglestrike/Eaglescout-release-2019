@@ -25,14 +25,6 @@ var tableStructure = {
 	more: {
 		name: "More Info",
 		data: {
-			user: {
-				name: "User",
-				data: "user"
-			},
-			competition: {
-				name: "Competition",
-				data: "competition"
-			},
 			match: {
 				name: "Match Number",
 				data: "match"
@@ -372,10 +364,34 @@ function getObservationFormHandlebarsHelper(structure, options) {
 
 function getTableHandlebarsHelper(structure, options) {
 	var finalString = "<table>\n<thead>\n";
-	for (var category in structure) finalString += "<th>" + category["name"] + "</th>\n";
+	for (var category in tableStructure) finalString += "<th>" + tableStructure[category]["name"] + "</th>\n";
+	for (var observation in structure) {
+		finalString += "<tr>";
+		for (var category in tableStructure) {
+			var data = tableStructure[category]["data"];
+			if (data == null) {
+				if (category == "image") {
+					finalString += "<td>asdf</td>";
+				}
+			} else if (typeof data == 'object') {
+				finalString += "<td>";
+				for (var subcategory in data) {
+					var data_subcategory = tableStructure[category]["data"][subcategory]["data"];
+					if (data_subcategory == null) {
+						// put special cases here
+					} else {
+						finalString += "<b>" + tableStructure[category]["data"][subcategory]["name"] + ": </b>" + structure[observation][data_subcategory] + "</b><br>";
+					}
+				}
+				finalString += "</td>";
+			} else {
+				finalString += "<td>" + structure[observation][data] + "</td>";
+			}
+		}
+		finalString += "</tr>";
+	}
 	finalString += "</thead>\n";
 	finalString += "</table>";
-	console.log(finalString);
 	return finalString;
 }
 
@@ -383,6 +399,5 @@ module.exports = {
 	getObservationFormSchema: getObservationFormSchema,
 	getObservationFormStructure: getObservationFormStructure,
 	getObservationFormHandlebarsHelper: getObservationFormHandlebarsHelper,
-	getTableStructure: function() { return tableStructure; },
 	getTableHandlebarsHelper: getTableHandlebarsHelper
 };
