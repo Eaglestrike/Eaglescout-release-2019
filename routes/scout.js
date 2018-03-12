@@ -7,6 +7,11 @@ var observationForm = require("../observationForm.js");
 
 router.get('/list'/*, utils.ensureAuthenticated*/, function(req, res) {
 	Observation.find({}, function(err, observations) {
+		for (var observation in observations) {
+			TBA.getImage(observations[observation]["team"], image => {
+				observations[observation]["image"] = image;
+			});
+		}
 		res.render('list', {
 			observations: observations
 		});

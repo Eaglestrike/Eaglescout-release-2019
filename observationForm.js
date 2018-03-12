@@ -20,7 +20,7 @@ var tableStructure = {
 	},
 	image: {
 		name: "Image",
-		data: null
+		data: "image"
 	},
 	more: {
 		name: "More Info",
@@ -369,23 +369,16 @@ function getTableHandlebarsHelper(structure, options) {
 		finalString += "<tr>";
 		for (var category in tableStructure) {
 			var data = tableStructure[category]["data"];
-			if (data == null) {
-				if (category == "image") {
-					finalString += "<td>asdf</td>";
-				}
-			} else if (typeof data == 'object') {
+			if (typeof data == 'object') {
 				finalString += "<td>";
 				for (var subcategory in data) {
 					var data_subcategory = tableStructure[category]["data"][subcategory]["data"];
-					if (data_subcategory == null) {
-						// put special cases here
-					} else {
-						finalString += "<b>" + tableStructure[category]["data"][subcategory]["name"] + ": </b>" + structure[observation][data_subcategory] + "</b><br>";
-					}
+					finalString += "<b>" + tableStructure[category]["data"][subcategory]["name"] + ": </b>" + structure[observation][data_subcategory] + "</b><br>";
 				}
 				finalString += "</td>";
 			} else {
-				finalString += "<td>" + structure[observation][data] + "</td>";
+				if (category == "image") finalString += "<td>" + (structure[observation][data] == null ? "none" : "https://i.imgur.com/" + structure[observation][data] + ".jpg") + "</td>";
+				else finalString += "<td>" + structure[observation][data] + "</td>";
 			}
 		}
 		finalString += "</tr>";
