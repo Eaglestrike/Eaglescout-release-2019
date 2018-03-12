@@ -47,8 +47,10 @@ module.exports.getImage = function(team, callback) {
 		res.on("end", () => {
 			var data = JSON.parse(body);
 			for (var media in data) {
-				if (data[media]["type"] == "imgur") callback("https://i.imgur.com/" + data[media]["foreign_key"] + ".jpg", null);
-				return;
+				if (data[media]["type"] == "imgur") {
+					callback("https://i.imgur.com/" + data[media]["foreign_key"] + ".jpg", null);
+					return;
+				}
 			}
 			callback(null, null);
 		});

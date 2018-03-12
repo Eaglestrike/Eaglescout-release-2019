@@ -377,7 +377,7 @@ function getTableHandlebarsHelper(structure, options) {
 				}
 				finalString += "</td>";
 			} else {
-				if (category == "image") finalString += "<td>" + (structure[observation][data] == null ? "none" : "https://i.imgur.com/" + structure[observation][data] + ".jpg") + "</td>";
+				if (category == "image") finalString += "<td>" + (structure[observation][data] == null ? "none" : "<img src='" + structure[observation][data] + "' width='300px'></img>") + "</td>";
 				else finalString += "<td>" + structure[observation][data] + "</td>";
 			}
 		}

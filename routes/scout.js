@@ -7,15 +7,23 @@ var observationForm = require("../observationForm.js");
 
 router.get('/list'/*, utils.ensureAuthenticated*/, function(req, res) {
 	Observation.find({}, function(err, observations) {
-		for (var observation in observations) {
-			TBA.getImage(observations[observation]["team"], image => {
-				observations[observation]["image"] = image;
-			});
-		}
-		res.render('list', {
-			observations: observations
+		var keys = [];
+		var index = 0;
+		for (var observation in observations) keys.push(observation);
+			function asyncForLoop() {
+				if (index == keys.length) {
+					res.render('list', {
+						observations: observations
+					});
+				} else {
+					TBA.getImage(observations[keys[index]]["team"], image => {
+						observations[keys[index ++]]["image"] = image;
+						asyncForLoop();
+					});
+				}
+			}
+			asyncForLoop();
 		});
-	});
 });
 
 router.get('/new'/*, utils.ensureAuthenticated*/, function(req, res) {
