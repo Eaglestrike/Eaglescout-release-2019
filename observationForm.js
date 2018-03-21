@@ -373,7 +373,10 @@ function getTableHandlebarsHelper(structure, options) {
 				finalString += "<td>";
 				for (var subcategory in data) {
 					var data_subcategory = tableStructure[category]["data"][subcategory]["data"];
-					finalString += "<b>" + tableStructure[category]["data"][subcategory]["name"] + ": </b>" + structure[observation][data_subcategory] + "</b><br>";
+					var display = structure[observation][data_subcategory];
+					if (display == null || display == "" || display == "undefined" || display == "NaN") continue;
+					if ("data" in observationFormSchema[subcategory] && observationFormSchema[subcategory]["input"] !== "slider") display = observationFormSchema[subcategory]["data"][display];
+					finalString += "<b>" + tableStructure[category]["data"][subcategory]["name"] + ": </b>" + display + "</b><br>";
 				}
 				finalString += "</td>";
 			} else {
