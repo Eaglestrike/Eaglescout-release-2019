@@ -363,7 +363,7 @@ function getObservationFormHandlebarsHelper(structure, options) {
 }
 
 function getTableHandlebarsHelper(structure, options) {
-	var finalString = "<table>\n<thead>\n";
+	var finalString = "<table class='bordered'>\n<thead>\n";
 	for (var category in tableStructure) finalString += "<th>" + tableStructure[category]["name"] + "</th>\n";
 	for (var observation in structure) {
 		finalString += "<tr>";
