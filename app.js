@@ -24,7 +24,8 @@ var hbs = exphbs.create({
     defaultLayout: 'layout',
     helpers: {
         observationForm: observationForm.getObservationFormHandlebarsHelper,
-        table: observationForm.getTableHandlebarsHelper
+        table: observationForm.getTableHandlebarsHelper,
+        ranking: observationForm.getRankingHandlebarsHelper
     }
 });
 
@@ -78,6 +79,7 @@ app.use(function (req, res, next) {
 app.use('/', login);
 app.use('/scout', scout);
 app.use('/scout/list', scout);
+app.use('/scout/teamranking', scout);
 app.use('/scout/new', scout);
 app.use('/admin', admin);
 app.use('/admin/register', admin);

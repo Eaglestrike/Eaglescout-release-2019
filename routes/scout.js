@@ -7,23 +7,34 @@ var observationForm = require("../observationForm.js");
 
 router.get('/list'/*, utils.ensureAuthenticated*/, function(req, res) {
 	Observation.find({}, function(err, observations) {
+		observations.sort(function(a,b) {
+		    return a.team - b.team;
+		});
+		res.render('list', {
+			observations: observations
+		});
+	});
+});
+
+router.get('/teamranking'/*, utils.ensureAuthenticated*/, function(req, res) {
+	Observation.find({}, function(err, rankings) {
 		var keys = [];
 		var index = 0;
-		for (var observation in observations) keys.push(observation);
-			function asyncForLoop() {
-				if (index == keys.length) {
-					res.render('list', {
-						observations: observations
-					});
-				} else {
-					TBA.getImage(observations[keys[index]]["team"], image => {
-						observations[keys[index ++]]["image"] = image;
-						asyncForLoop();
-					});
-				}
+		for (var observation in rankings) keys.push(observation);
+		function asyncForLoop() {
+			if (index == keys.length) {
+				res.render('teamranking', {
+					rankings: rankings
+				});
+			} else {
+				TBA.getImage(rankings[keys[index]]["team"], image => {
+					rankings[keys[index ++]]["image"] = image;
+					asyncForLoop();
+				});
 			}
-			asyncForLoop();
-		});
+		}
+		asyncForLoop();
+	});
 });
 
 router.get('/new'/*, utils.ensureAuthenticated*/, function(req, res) {

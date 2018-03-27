@@ -13,7 +13,7 @@ var TBA = require('./TBA');
 - slider [requires data]
 ********************/
 
-var tableStructure = {
+var rankingStructure = {
 	team: {
 		name: "Team #",
 		data: "team"
@@ -21,6 +21,17 @@ var tableStructure = {
 	image: {
 		name: "Image",
 		data: "image"
+	},
+	points: {
+		name: "Points",
+		data: "points"
+	}
+}
+
+var tableStructure = {
+	team: {
+		name: "Team #",
+		data: "team"
 	},
 	more: {
 		name: "More Info",
@@ -391,9 +402,27 @@ function getTableHandlebarsHelper(structure, options) {
 	return finalString;
 }
 
+function getRankingHandlebarsHelper(structure, options) {
+	var finalString = "<table class='bordered'>\n<thead>\n";
+	for (var category in rankingStructure) finalString += "<th>" + rankingStructure[category]["name"] + "</th>\n";
+	for (var observation in structure) {
+		finalString += "<tr>";
+		for (var category in rankingStructure) {
+			var data = rankingStructure[category]["data"];
+			if (category == "image") finalString += "<td>" + (structure[observation][data] == null ? "none" : "<img src='" + structure[observation][data] + "' width='300px'></img>") + "</td>";
+			else finalString += "<td>" + structure[observation][data] + "</td>";
+		}
+		finalString += "</tr>";
+	}
+	finalString += "</thead>\n";
+	finalString += "</table>";
+	return finalString;
+}
+
 module.exports = {
 	getObservationFormSchema: getObservationFormSchema,
 	getObservationFormStructure: getObservationFormStructure,
 	getObservationFormHandlebarsHelper: getObservationFormHandlebarsHelper,
-	getTableHandlebarsHelper: getTableHandlebarsHelper
+	getTableHandlebarsHelper: getTableHandlebarsHelper,
+	getRankingHandlebarsHelper: getRankingHandlebarsHelper
 };
