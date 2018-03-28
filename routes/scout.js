@@ -1,3 +1,17 @@
+var multipliers = {
+	'switch_cubes': 1,
+	'scale_cubes': 1,
+	'exchange_cubes': 1,
+	'cubes_dropped': -1,
+	'climbed': 1,
+	'lifted': 1,
+	'auton_drove_forward': 1,
+	'auton_switch': 1,
+	'auton_scale': 1,
+	'death_percent': -1,
+	'speeds': 1
+};
+
 var express = require('express');
 var router = express.Router();
 var Observation = require("../models/observation");
@@ -8,7 +22,7 @@ var observationForm = require("../observationForm.js");
 router.get('/list'/*, utils.ensureAuthenticated*/, function(req, res) {
 	Observation.find({}, function(err, observations) {
 		observations.sort(function(a,b) {
-		    return a.team - b.team;
+			return a.team - b.team;
 		});
 		res.render('list', {
 			observations: observations
@@ -17,18 +31,86 @@ router.get('/list'/*, utils.ensureAuthenticated*/, function(req, res) {
 });
 
 router.get('/teamranking'/*, utils.ensureAuthenticated*/, function(req, res) {
-	Observation.find({}, function(err, rankings) {
-		var keys = [];
+	Observation.find({}, function(err, observations) {
+		var rankings = {};
+		for (var observation in observations) {
+			var team = observations[observation]["team"];
+			if (!(team in rankings)) {
+				// Custom stuff
+				rankings[team] = {
+					'switch_cubes': [],
+					'scale_cubes': [],
+					'exchange_cubes': [],
+					'cubes_dropped': [],
+					'climbed': false,
+					'lifted': false,
+					'auton_drove_forward': false,
+					'auton_switch': false,
+					'auton_scale': false,
+					'death_percent': [],
+					'speeds': []
+				};
+			}
+			var time_robot_dead = observations[observation]['teleop_time_robot_died'] == "" ? 0 : parseInt(observations[observation]['teleop_time_robot_died']);
+			rankings[team]['death_percent'].push(time_robot_dead / 150);
+			if (time_robot_dead < 45) {
+				if (observations[observation]['teleop_switch_cubes'] != null && observations[observation]['teleop_switch_cubes'] != "") rankings[team]['switch_cubes'].push(parseInt(observations[observation]['teleop_switch_cubes']));
+				if (observations[observation]['teleop_scale_cubes'] != null && observations[observation]['teleop_scale_cubes'] != "") rankings[team]['scale_cubes'].push(parseInt(observations[observation]['teleop_scale_cubes']));
+				if (observations[observation]['teleop_cubes_dropped'] != null && observations[observation]['teleop_cubes_dropped'] != "") rankings[team]['cubes_dropped'].push(parseInt(observations[observation]['teleop_cubes_dropped']));
+				if (observations[observation]['teleop_exchange_cubes'] != null && observations[observation]['teleop_exchange_cubes'] != "") rankings[team]['exchange_cubes'].push(parseInt(observations[observation]['teleop_exchange_cubes']));
+			}
+			if (time_robot_dead < 120 && observations[observation]['speed'] != null && observations[observation]['speed'] != "") {
+				var speed;
+				switch (observations[observation]['speed']) {
+					case "very_slow": 
+					speed = 0;
+					break;
+					case "slow": 
+					speed = 1;
+					break;
+					case "medium": 
+					speed = 2;
+					break;
+					case "fast": 
+					speed = 3;
+					break;
+					case "very_fast": 
+					speed = 3;
+					break;
+				}
+				rankings[team]['speeds'].push(speed);
+			}
+			if (observations[observation]['endgame_successful_climb'] == "yes") rankings[team]['climbed'] = true;
+			if (observations[observation]['endgame_help_others_climb'] == "yes") rankings[team]['lifted'] = true;
+			if (observations[observation]['auto_cross_line'] == "yes") rankings[team]['auton_drove_forward'] = true;
+			if (observations[observation]['auto_scale_cubes'] == "yes") rankings[team]['auton_scale'] = true;
+			if (observations[observation]['auto_switch_cubes'] == "yes") rankings[team]['auton_switch'] = true;
+		}
+		
+		var points = [];
+		for (var ranking in rankings) {
+			var currentObj = {
+				team: ranking
+			}
+			var currentPoints = 0;
+			for (var multiplier in multipliers) {
+				if (Array.isArray(rankings[ranking][multiplier])) currentPoints += utils.average(rankings[ranking][multiplier]) * multipliers[multiplier];
+				else currentPoints += rankings[ranking][multiplier] * multipliers[multiplier];
+			}
+			currentObj['points'] = Math.round(currentPoints);
+			points.push(currentObj);
+		}
+		
 		var index = 0;
-		for (var observation in rankings) keys.push(observation);
 		function asyncForLoop() {
-			if (index == keys.length) {
+			console.log(index);
+			if (index == points.length) {
 				res.render('teamranking', {
-					rankings: rankings
+					points: points
 				});
 			} else {
-				TBA.getImage(rankings[keys[index]]["team"], image => {
-					rankings[keys[index ++]]["image"] = image;
+				TBA.getImage(points[index]["team"], image => {
+					points[index ++]["image"] = image;
 					asyncForLoop();
 				});
 			}

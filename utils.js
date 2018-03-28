@@ -28,6 +28,11 @@ module.exports = {
 		var buffer = fs.readFileSync('state.db');
 		var json = JSON.parse(buffer.toString());
 		return json["current_event"];
+	},
+	average: function(array) {
+		var sum = 0;
+		for (var i = 0; i < array.length; i ++) sum += array[i];
+		return sum /= array.length;
 	}
 };
 

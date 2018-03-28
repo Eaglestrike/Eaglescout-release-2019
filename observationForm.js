@@ -18,13 +18,13 @@ var rankingStructure = {
 		name: "Team #",
 		data: "team"
 	},
-	image: {
-		name: "Image",
-		data: "image"
-	},
 	points: {
 		name: "Points",
 		data: "points"
+	},
+	image: {
+		name: "Image",
+		data: "image"
 	}
 }
 
@@ -77,7 +77,7 @@ var tableStructure = {
 				data: "teleop_robot_died"
 			},
 			teleop_time_robot_died: {
-				name: "[Teleop] Time left when robot died",
+				name: "[Teleop] How long robot was dead",
 				data: "teleop_time_robot_died"
 			},
 			driver_comments: {
@@ -214,7 +214,7 @@ var observationFormSchema = {
 		type: String,
 		input: "number",
 		placeholder: "Format: number of seconds only",
-		title: "[Teleop] Time left when robot died",
+		title: "[Teleop] Amount of time that robot was dead",
 		subtitle: "If the robot didn't die, leave this blank"
 	},
 	driver_comments: {
@@ -391,7 +391,7 @@ function getTableHandlebarsHelper(structure, options) {
 				}
 				finalString += "</td>";
 			} else {
-				if (category == "image") finalString += "<td>" + (structure[observation][data] == null ? "none" : "<img src='" + structure[observation][data] + "' width='300px'></img>") + "</td>";
+				if (category == "image") finalString += "<td>" + (structure[observation][data] == null ? "none" : "<a href='" + structure[observation][data] + "' target='_blank'><img src='" + structure[observation][data] + "' style='height: 200px'></img></a>") + "</td>";
 				else finalString += "<td>" + structure[observation][data] + "</td>";
 			}
 		}
@@ -409,7 +409,7 @@ function getRankingHandlebarsHelper(structure, options) {
 		finalString += "<tr>";
 		for (var category in rankingStructure) {
 			var data = rankingStructure[category]["data"];
-			if (category == "image") finalString += "<td>" + (structure[observation][data] == null ? "none" : "<img src='" + structure[observation][data] + "' width='300px'></img>") + "</td>";
+			if (category == "image") finalString += "<td>" + (structure[observation][data] == null ? "none" : "<a href='" + structure[observation][data] + "' target='_blank'><img src='" + structure[observation][data] + "' style='height: 200px'></img></a>") + "</td>";
 			else finalString += "<td>" + structure[observation][data] + "</td>";
 		}
 		finalString += "</tr>";
