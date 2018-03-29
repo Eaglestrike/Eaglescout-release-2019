@@ -15,7 +15,7 @@ var TBA = require('./TBA');
 
 var rankingStructure = {
 	team: {
-		name: "Team #",
+		name: "<span class='no-mobile'>Team </span>#",
 		data: "team"
 	},
 	points: {
@@ -30,7 +30,7 @@ var rankingStructure = {
 
 var tableStructure = {
 	team: {
-		name: "Team #",
+		name: "<span class='no-mobile'>Team </span>#",
 		data: "team"
 	},
 	more: {
@@ -391,8 +391,7 @@ function getTableHandlebarsHelper(structure, options) {
 				}
 				finalString += "</td>";
 			} else {
-				if (category == "image") finalString += "<td>" + (structure[observation][data] == null ? "none" : "<a href='" + structure[observation][data] + "' target='_blank'><img src='" + structure[observation][data] + "' style='height: 200px'></img></a>") + "</td>";
-				else finalString += "<td>" + structure[observation][data] + "</td>";
+				finalString += "<td>" + structure[observation][data] + "</td>";
 			}
 		}
 		finalString += "</tr>";
@@ -404,12 +403,12 @@ function getTableHandlebarsHelper(structure, options) {
 
 function getRankingHandlebarsHelper(structure, options) {
 	var finalString = "<table class='bordered'>\n<thead>\n";
-	for (var category in rankingStructure) finalString += "<th>" + rankingStructure[category]["name"] + "</th>\n";
+	for (var category in rankingStructure) finalString += "<th" + (category == "image" ? " class='no-mobile'" : '') + ">" + rankingStructure[category]["name"] + "</th>\n";
 	for (var observation in structure) {
 		finalString += "<tr>";
 		for (var category in rankingStructure) {
 			var data = rankingStructure[category]["data"];
-			if (category == "image") finalString += "<td>" + (structure[observation][data] == null ? "none" : "<a href='" + structure[observation][data] + "' target='_blank'><img src='" + structure[observation][data] + "' style='height: 200px'></img></a>") + "</td>";
+			if (category == "image") finalString += "<td class='no-mobile'>" + (structure[observation][data] == null ? "none" : "<a href='" + structure[observation][data] + "' target='_blank'><img src='" + structure[observation][data] + "' style='height: 200px'></img></a>") + "</td>";
 			else finalString += "<td>" + structure[observation][data] + "</td>";
 		}
 		finalString += "</tr>";

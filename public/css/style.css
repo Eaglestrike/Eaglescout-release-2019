@@ -91,3 +91,16 @@ input[type=range] + .thumb.active .value {
 	border-right: 2px solid #1976d2;
 	border-bottom: 2px solid #1976d2;
 }
+
+@media all and (max-width: 768px) {
+	span.bullet {
+		display: none;
+	}
+	span.subtitle {
+		display: block;
+		font-size: 0.5em;
+	}
+	.no-mobile {
+		display: none;
+	}
+}
