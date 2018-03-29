@@ -14,6 +14,7 @@ router.post('/register', utils.ensureAdmin, function(req, res) {
 	var email = req.body.email;
 	var password = req.body.password;
 	var confirmPassword = req.body.confirmPassword;
+
 	req.checkBody('email', 'Please enter a valid email!').isEmail();
 	req.checkBody('password', 'Please enter a password!').notEmpty();
 	req.checkBody('confirmPassword', 'Passwords do not match.').equals(req.body.password);
@@ -26,7 +27,8 @@ router.post('/register', utils.ensureAdmin, function(req, res) {
 	} else {
 		var newUser = new User({
 			email: email,
-			password: password
+			password: password,
+			admin: req.body.admin == "on"
 		});
 
 		User.createUser(newUser, function(err, user) {
