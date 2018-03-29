@@ -1,15 +1,15 @@
 var multipliers = {
-	'switch_cubes': 1,
-	'scale_cubes': 1,
-	'exchange_cubes': 1,
-	'cubes_dropped': -1,
-	'climbed': 1,
-	'lifted': 1,
-	'auton_drove_forward': 1,
-	'auton_switch': 1,
-	'auton_scale': 1,
-	'death_percent': -1,
-	'speeds': 1
+	'switch_cubes': 2,
+	'scale_cubes': 3,
+	'exchange_cubes': 4,
+	'cubes_dropped': -6,
+	'climbed': 7,
+	'lifted': 0.5,
+	'auton_drove_forward': 45,
+	'auton_switch': 2,
+	'auton_scale': 99,
+	'death_percent': -500,
+	'speeds': 88
 };
 
 var express = require('express');
@@ -19,7 +19,7 @@ var utils = require("../utils");
 var TBA = require("../TBA");
 var observationForm = require("../observationForm.js");
 
-router.get('/list'/*, utils.ensureAuthenticated*/, function(req, res) {
+router.get('/list', utils.ensureAuthenticated, function(req, res) {
 	Observation.find({}, function(err, observations) {
 		observations.sort(function(a,b) {
 			return a.team - b.team;
@@ -30,7 +30,7 @@ router.get('/list'/*, utils.ensureAuthenticated*/, function(req, res) {
 	});
 });
 
-router.get('/teamranking'/*, utils.ensureAuthenticated*/, function(req, res) {
+router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 	Observation.find({}, function(err, observations) {
 		var rankings = {};
 		for (var observation in observations) {
@@ -75,7 +75,7 @@ router.get('/teamranking'/*, utils.ensureAuthenticated*/, function(req, res) {
 					speed = 3;
 					break;
 					case "very_fast": 
-					speed = 3;
+					speed = 4;
 					break;
 				}
 				rankings[team]['speeds'].push(speed);
@@ -103,8 +103,10 @@ router.get('/teamranking'/*, utils.ensureAuthenticated*/, function(req, res) {
 		
 		var index = 0;
 		function asyncForLoop() {
-			console.log(index);
 			if (index == points.length) {
+				points.sort(function(a,b) {
+					return b.points - a.points;
+				});
 				res.render('teamranking', {
 					points: points
 				});
@@ -119,7 +121,15 @@ router.get('/teamranking'/*, utils.ensureAuthenticated*/, function(req, res) {
 	});
 });
 
-router.get('/new'/*, utils.ensureAuthenticated*/, function(req, res) {
+router.get('/csv', utils.ensureAuthenticated, function(req, res) {
+	res.writeHead(200, {
+        'Content-Type': 'text/csv',
+        'Content-Disposition': 'attachment; filename=observations.csv'
+    });
+    Observation.find({}).csv(res);
+});
+
+router.get('/new', utils.ensureAuthenticated, function(req, res) {
 	TBA.getEvents((events) => {
 		var structure = observationForm.getObservationFormStructure();
 		structure.events = events;
@@ -129,7 +139,7 @@ router.get('/new'/*, utils.ensureAuthenticated*/, function(req, res) {
 	});
 });
 
-router.post('/new'/*, utils.ensureAuthenticated*/, function(req, res) {
+router.post('/new', utils.ensureAuthenticated, function(req, res) {
 	req.body.user = res.locals.user.email;
 	delete req.body.action;
 	var newObservation = new Observation(req.body);
@@ -142,7 +152,7 @@ router.post('/new'/*, utils.ensureAuthenticated*/, function(req, res) {
 	res.redirect("/scout");
 });
 
-router.get('/'/*, utils.ensureAuthenticated*/, function(req, res) {
+router.get('/', utils.ensureAuthenticated, function(req, res) {
 	res.render('scout');
 });
 
