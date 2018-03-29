@@ -1,0 +1,77 @@
+<nav class="blue darken-2">
+    <div class="nav-wrapper container">
+        <div class="col s12">
+            <a href="/scout" class="breadcrumb">Scout</a>
+            <a href="/scout" class="breadcrumb">Dashboard</a>
+        </div>
+    </div>
+</nav>
+
+{{#if success_msg}}
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <div class="row">
+            <div class="info-message green white-text">
+                {{success_msg}}
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+{{#if error_msg}}
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <div class="row">
+            <div class="info-message red darken-1 white-text">
+                {{error_msg}}
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+{{#if error}}
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <div class="row">
+            <div class="info-message red darken-1 white-text">
+                {{error}}
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+
+<div class="section no-pad-bot" id="index-banner">
+	<div class="container center">
+		<h1 class="header center blue-text text-darken-4">Eaglescout &bull; Account</h1>
+        <br>
+		<div class="row center">
+            <h5>Reset Password</h5>
+            <h5 class="header col s12 light">
+                <div class="row center">
+                    <form class="center-input" method="post" action="/account">
+                        <div class="container center">
+                            <div class="row">
+                                <div class="input-field">
+                                    <input name="oldPassword" type="password" class="validate">
+                                    <label for="oldPassword">Old Password</label>
+                                </div>
+                                <div class="input-field">
+                                    <input name="newPassword" type="password" class="validate">
+                                    <label for="newPassword">New Password</label>
+                                </div>
+                                <div class="input-field">
+                                    <input name="confirmPassword" type="password" class="validate">
+                                    <label for="confirmPassword">Confirm Password</label>
+                                </div>
+                            </div>
+                            <button class="btn waves-effect waves-light red" type="submit" name="action">Change Password</button>
+                        </div>
+                    </form>
+                </div>
+            </h5>
+        </div>
+	</div>
+</div>
