@@ -54,10 +54,10 @@ router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 			var time_robot_dead = observations[observation]['teleop_time_robot_died'] == "" ? 0 : parseInt(observations[observation]['teleop_time_robot_died']);
 			rankings[team]['death_percent'].push(time_robot_dead / 150);
 			if (time_robot_dead < 45) {
-				if (observations[observation]['teleop_switch_cubes'] != null && observations[observation]['teleop_switch_cubes'] != "") rankings[team]['switch_cubes'].push(parseInt(observations[observation]['teleop_switch_cubes']));
-				if (observations[observation]['teleop_scale_cubes'] != null && observations[observation]['teleop_scale_cubes'] != "") rankings[team]['scale_cubes'].push(parseInt(observations[observation]['teleop_scale_cubes']));
-				if (observations[observation]['teleop_cubes_dropped'] != null && observations[observation]['teleop_cubes_dropped'] != "") rankings[team]['cubes_dropped'].push(parseInt(observations[observation]['teleop_cubes_dropped']));
-				if (observations[observation]['teleop_exchange_cubes'] != null && observations[observation]['teleop_exchange_cubes'] != "") rankings[team]['exchange_cubes'].push(parseInt(observations[observation]['teleop_exchange_cubes']));
+				if (!isNaN(parseInt(observations[observation]['teleop_switch_cubes']))) rankings[team]['switch_cubes'].push(parseInt(observations[observation]['teleop_switch_cubes']));
+				if (!isNaN(parseInt(observations[observation]['teleop_scale_cubes']))) rankings[team]['scale_cubes'].push(parseInt(observations[observation]['teleop_scale_cubes']));
+				if (!isNaN(parseInt(observations[observation]['teleop_cubes_dropped']))) rankings[team]['cubes_dropped'].push(parseInt(observations[observation]['teleop_cubes_dropped']));
+				if (!isNaN(parseInt(observations[observation]['teleop_exchange_cubes']))) rankings[team]['exchange_cubes'].push(parseInt(observations[observation]['teleop_exchange_cubes']));
 			}
 			if (time_robot_dead < 120 && observations[observation]['speed'] != null && observations[observation]['speed'] != "") {
 				var speed;
