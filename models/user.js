@@ -40,3 +40,18 @@ module.exports.comparePassword = function(candidatePassword, hash, callback) {
 		callback(null, isMatch);
 	});	
 };
+
+module.exports.createAdminUserIfNotExists = function() {
+	User.find({}, function (err, users) {
+		if (users.length > 0)
+			return;
+
+		var user = new User({
+			email: "admin@team114.org",
+			password: "team114",
+			admin: true
+		});
+
+		User.createUser(user, function() {});
+    });
+}

@@ -19,6 +19,9 @@ var admin = require('./routes/admin');
 var utils = require('./utils');
 var observationForm = require('./observationForm');
 
+var User = require('./models/user');
+User.createAdminUserIfNotExists();
+
 var app = express();
 var hbs = exphbs.create({
     defaultLayout: 'layout',
