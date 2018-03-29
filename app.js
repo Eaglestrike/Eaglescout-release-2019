@@ -16,6 +16,7 @@ var db = mongoose.connection;
 var login = require('./routes/login');
 var scout = require('./routes/scout');
 var admin = require('./routes/admin');
+var account = require('./routes/account');
 var utils = require('./utils');
 var observationForm = require('./observationForm');
 
@@ -80,6 +81,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', login);
+app.use('/account', account);
 app.use('/scout', scout);
 app.use('/scout/list', scout);
 app.use('/scout/teamranking', scout);
