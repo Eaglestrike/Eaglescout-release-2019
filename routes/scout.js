@@ -12,6 +12,91 @@ var multipliers = {
 	'speeds': 100
 };
 
+// ------------------------ FILTERS ------------------------ //
+var switch_cubes = {
+	'switch_cubes': 1,
+	'scale_cubes': 0,
+	'exchange_cubes': 0,
+	'cubes_dropped': 0,
+	'climbed': 0,
+	'lifted': 0,
+	'auton_drove_forward': 0,
+	'auton_switch': 1,
+	'auton_scale': 0,
+	'death_percent': 0,
+	'speeds': 0
+};
+
+var scale_cubes = {
+	'switch_cubes': 0,
+	'scale_cubes': 1,
+	'exchange_cubes': 0,
+	'cubes_dropped': 0,
+	'climbed': 0,
+	'lifted': 0,
+	'auton_drove_forward': 0,
+	'auton_switch': 0,
+	'auton_scale': 1,
+	'death_percent': 0,
+	'speeds': 0
+};
+
+var exchange_cubes = {
+	'switch_cubes': 0,
+	'scale_cubes': 0,
+	'exchange_cubes': 1,
+	'cubes_dropped': 0,
+	'climbed': 0,
+	'lifted': 0,
+	'auton_drove_forward': 0,
+	'auton_switch': 0,
+	'auton_scale': 0,
+	'death_percent': 0,
+	'speeds': 0
+};
+
+var climb = {
+	'switch_cubes': 0,
+	'scale_cubes': 0,
+	'exchange_cubes': 0,
+	'cubes_dropped': 0,
+	'climbed': 1,
+	'lifted': 0,
+	'auton_drove_forward': 0,
+	'auton_switch': 0,
+	'auton_scale': 0,
+	'death_percent': 0,
+	'speeds': 0
+};
+
+var lift = {
+	'switch_cubes': 0,
+	'scale_cubes': 0,
+	'exchange_cubes': 0,
+	'cubes_dropped': 0,
+	'climbed': 0,
+	'lifted': 1,
+	'auton_drove_forward': 0,
+	'auton_switch': 0,
+	'auton_scale': 0,
+	'death_percent': 0,
+	'speeds': 0
+};
+
+var speed = {
+	'switch_cubes': 0,
+	'scale_cubes': 0,
+	'exchange_cubes': 0,
+	'cubes_dropped': 0,
+	'climbed': 0,
+	'lifted': 0,
+	'auton_drove_forward': 0,
+	'auton_switch': 0,
+	'auton_scale': 0,
+	'death_percent': 0,
+	'speeds': 1
+};
+
 var express = require('express');
 var router = express.Router();
 var Observation = require("../models/observation");
@@ -81,15 +166,43 @@ router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 			if (observations[observation]['auto_switch_cubes'] == "yes") rankings[team]['auton_switch'] = true;
 		}
 		
+
 		var points = [];
 		for (var ranking in rankings) {
+			var filter;
+			switch (req.query.filter) {
+				case "switch_cubes":
+					filter = switch_cubes;
+					break;
+				case "scale_cubes":
+					filter = scale_cubes;
+					break;
+				case "exchange_cubes":
+					filter = exchange_cubes;
+					break;
+				case "climb":
+					filter = climb;
+					break;
+				case "lift":
+					filter = lift;
+					break;
+				case "speed":
+					filter = speed;
+					break;
+				case "undefined":
+					filter = multipliers;
+					break;
+				default:
+					filter = multipliers;
+					break;
+			}
 			var currentObj = {
 				team: ranking
 			}
 			var currentPoints = 0;
-			for (var multiplier in multipliers) {
-				if (Array.isArray(rankings[ranking][multiplier])) currentPoints += utils.average(rankings[ranking][multiplier]) * multipliers[multiplier];
-				else currentPoints += rankings[ranking][multiplier] * multipliers[multiplier];
+			for (var multiplier in filter) {
+				if (Array.isArray(rankings[ranking][multiplier])) currentPoints += utils.average(rankings[ranking][multiplier]) * filter[multiplier];
+				else currentPoints += rankings[ranking][multiplier] * filter[multiplier];
 			}
 			currentObj['points'] = Math.round(currentPoints);
 			points.push(currentObj);
@@ -102,7 +215,13 @@ router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 					return b.points - a.points;
 				});
 				res.render('teamranking', {
-					points: points
+					points: points,
+					switch_cubes: req.query.filter == "switch_cubes",
+					scale_cubes: req.query.filter == "scale_cubes",
+					exchange_cubes: req.query.filter == "exchange_cubes",
+					climb: req.query.filter == "climb",
+					lift: req.query.filter == "lift",
+					speed: req.query.filter == "speed"
 				});
 			} else {
 				TBA.getImage(points[index]["team"], image => {

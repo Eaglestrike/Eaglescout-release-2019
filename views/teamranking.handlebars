@@ -47,6 +47,19 @@
 	<div class="container">
 		<h1 class="header center blue-text text-darken-4">Eaglescout<span class="bullet"> &bull; </span><span class="subtitle">Team Ranking</span></h1>
 		<br>
+        <div class="input-field col s12">
+            <select id="ranking-filter-select">
+                <option value="">Default</option>
+                <option value="switch_cubes" {{#if switch_cubes}} selected {{/if}}>Cubes on Switch</option>
+                <option value="scale_cubes" {{#if scale_cubes}} selected {{/if}}>Cubes on Scale</option>
+                <option value="exchange_cubes" {{#if exchange_cubes}} selected {{/if}}>Cubes in Exchange</option>
+                <option value="climb" {{#if climb}} selected {{/if}}>Climbing</option>
+                <option value="lift" {{#if lift}} selected {{/if}}>Lifting other robots</option>
+                <option value="speed" {{#if speed}} selected {{/if}}>Speed</option>
+            </select>
+            <label>Select a Filter</label>
+        </div>
+        <br>
         {{{ranking points}}}
 	</div>
 </div>
