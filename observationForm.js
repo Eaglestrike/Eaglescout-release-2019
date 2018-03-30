@@ -14,6 +14,10 @@ var TBA = require('./TBA');
 ********************/
 
 var rankingStructure = {
+	place: {
+		name: "Place",
+		data: null
+	},
 	team: {
 		name: "<span class='no-mobile'>Team </span>#",
 		data: "team"
@@ -405,6 +409,10 @@ function getRankingHandlebarsHelper(structure, options) {
 	for (var observation in structure) {
 		finalString += "<tr>";
 		for (var category in rankingStructure) {
+			if (category == "place") {
+				finalString += "<td>" + (parseInt(observation) + 1) + "</td>";
+				continue;
+			}
 			var data = rankingStructure[category]["data"];
 			if (category == "image") finalString += "<td class='no-mobile'>" + (structure[observation][data] == null ? "none" : "<a href='" + structure[observation][data] + "' target='_blank'><img src='" + structure[observation][data] + "' style='height: 200px'></img></a>") + "</td>";
 			else finalString += "<td>" + structure[observation][data] + "</td>";
