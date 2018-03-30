@@ -1,15 +1,15 @@
 var multipliers = {
-	'switch_cubes': 2,
-	'scale_cubes': 3,
-	'exchange_cubes': 4,
-	'cubes_dropped': -6,
-	'climbed': 7,
-	'lifted': 0.5,
-	'auton_drove_forward': 45,
-	'auton_switch': 2,
-	'auton_scale': 99,
-	'death_percent': -500,
-	'speeds': 88
+	'switch_cubes': 6,
+	'scale_cubes': 10,
+	'exchange_cubes': 3.5,
+	'cubes_dropped': -2,
+	'climbed': 15,
+	'lifted': 35,
+	'auton_drove_forward': 5,
+	'auton_switch': 25, // TODO IF WE CAN DO IT, MAKE IT 13
+	'auton_scale': 35,
+	'death_percent': -100,
+	'speeds': 10
 };
 
 var express = require('express');
@@ -62,20 +62,14 @@ router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 			if (time_robot_dead < 120 && observations[observation]['speed'] != null && observations[observation]['speed'] != "") {
 				var speed;
 				switch (observations[observation]['speed']) {
-					case "very_slow": 
-					speed = 0;
-					break;
 					case "slow": 
-					speed = 1;
+					speed = -1;
 					break;
 					case "medium": 
-					speed = 2;
+					speed = 0;
 					break;
 					case "fast": 
-					speed = 3;
-					break;
-					case "very_fast": 
-					speed = 4;
+					speed = 1;
 					break;
 				}
 				rankings[team]['speeds'].push(speed);

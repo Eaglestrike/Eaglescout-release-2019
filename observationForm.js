@@ -237,11 +237,9 @@ var observationFormSchema = {
 		type: String,
 		input: "dropdown",
 		data: {
-			"very_slow": "Very slow (less than 5 ft/sec)",
-			"slow": "Slow (5 ft/sec to 12 ft/second)",
-			"medium": "Medium (14 ft/second to 18 ft/second)",
-			"fast": "Fast (18 ft/second to 25 ft/second)",
-			"very_fast": "Very Fast (more than 25 ft/second)"
+			"slow": "Slow (lower than 8 ft/second)",
+			"medium": "Medium (8 ft/second to 15 ft/second)",
+			"fast": "Fast (greater than 15 ft/second)",
 		},
 		placeholder: "Select one",
 		title: "[Bot] Speed compared to our robot (16 ft/second)",
