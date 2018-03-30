@@ -1,15 +1,15 @@
 var multipliers = {
-	'switch_cubes': 6,
-	'scale_cubes': 10,
-	'exchange_cubes': 3.5,
-	'cubes_dropped': -2,
-	'climbed': 15,
-	'lifted': 35,
-	'auton_drove_forward': 5,
-	'auton_switch': 25, // TODO IF WE CAN DO IT, MAKE IT 13
-	'auton_scale': 35,
-	'death_percent': -100,
-	'speeds': 10
+	'switch_cubes': 60,
+	'scale_cubes': 100,
+	'exchange_cubes': 35,
+	'cubes_dropped': -20,
+	'climbed': 150,
+	'lifted': 350,
+	'auton_drove_forward': 50,
+	'auton_switch': 250, // TODO IF WE CAN DO IT, MAKE IT 13
+	'auton_scale': 350,
+	'death_percent': -1000,
+	'speeds': 100
 };
 
 var express = require('express');
