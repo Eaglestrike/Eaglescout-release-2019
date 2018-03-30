@@ -40,6 +40,10 @@ var tableStructure = {
 	more: {
 		name: "More Info",
 		data: {
+			user: {
+				name: "User",
+				data: "user"
+			},
 			match: {
 				name: "Match Number",
 				data: "match"
