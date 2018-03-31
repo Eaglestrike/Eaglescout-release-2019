@@ -94,7 +94,7 @@ var speed = {
 	'auton_switch': 0,
 	'auton_scale': 0,
 	'death_percent': 0,
-	'speeds': 1
+	'speeds': 10
 };
 
 var express = require('express');
