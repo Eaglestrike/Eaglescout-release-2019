@@ -88,6 +88,7 @@ app.use('/scout/teamranking', scout);
 app.use('/scout/new', scout);
 app.use('/admin', admin);
 app.use('/admin/register', admin);
+app.use('/admin/bulkimport', admin);
 app.use('/admin/event', admin);
 
 app.set('port', (3000));

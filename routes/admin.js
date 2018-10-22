@@ -10,6 +10,10 @@ router.get('/register', utils.ensureAdmin, function(req, res) {
 	res.render('register');
 });
 
+router.get('/bulkimport', utils.ensureAdmin, function(req, res) {
+	res.render('bulkimport');
+});
+
 router.post('/register', utils.ensureAdmin, function(req, res) {
 	var email = req.body.email;
 	var password = req.body.password;
@@ -38,6 +42,33 @@ router.post('/register', utils.ensureAdmin, function(req, res) {
 		req.flash('success_msg', 'Successfully registered user.');
 		res.redirect("/admin/register");
 	}
+});
+
+router.post('/bulkimport', utils.ensureAdmin, function(req, res) {
+	var textbox = req.body.bulkimport;
+	var emails = textbox.split("\n");
+
+	for (var email in emails) {
+		while (emails[email].endsWith("\r")) {
+			emails[email] = emails[email].slice(0, -1);
+		}
+
+		if (emails[email].trim() == "") {
+			continue;
+		}
+
+		var newUser = new User({
+			email: emails[email],
+			password: "team114"
+		});
+
+		User.createUser(newUser, function(err, user) {
+			if (err) throw err;
+		});
+	}
+
+	req.flash('success_msg', 'Successfully bulk registered users. Their password is "team114".');
+	res.redirect("/admin");
 });
 
 router.get('/', utils.ensureAdmin, function(req, res) {
