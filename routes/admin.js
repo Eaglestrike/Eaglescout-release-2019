@@ -29,18 +29,27 @@ router.post('/register', utils.ensureAdmin, function(req, res) {
 			errors: errors
 		});
 	} else {
-		var newUser = new User({
-			email: email,
-			password: password,
-			admin: req.body.admin == "on"
-		});
+		User.find({
+			email: email
+		}, function(err, users) {
+			if (users.length > 0) {
+				req.flash('error_msg', 'Account already exists!');
+				res.redirect('/admin/register');
+			} else {
+				var newUser = new User({
+					email: email,
+					password: password,
+					admin: req.body.admin == "on"
+				});
 
-		User.createUser(newUser, function(err, user) {
-			if (err) throw err;
-		});
+				User.createUser(newUser, function(err, user) {
+					if (err) throw err;
+				});
 
-		req.flash('success_msg', 'Successfully registered user.');
-		res.redirect("/admin/register");
+				req.flash('success_msg', 'Successfully registered user.');
+				res.redirect("/admin/register");
+			}
+		});
 	}
 });
 
@@ -66,14 +75,20 @@ router.post('/bulkimport', utils.ensureAdmin, function(req, res) {
 				continue;
 			}
 
-			var newUser = new User({
-				email: emails[email],
-				password: password,
-				admin: false
-			});
+			User.find({
+				email: emails[email]
+			}, function(err, users) {
+				if (users.length == 0) {
+					var newUser = new User({
+						email: emails[email],
+						password: password,
+						admin: false
+					});
 
-			User.createUser(newUser, function(err, user) {
-				if (err) throw err;
+					User.createUser(newUser, function(err, user) {
+						if (err) throw err;
+					});
+				}
 			});
 		}
 
