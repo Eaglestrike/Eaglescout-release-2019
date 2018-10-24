@@ -1,0 +1,90 @@
+<nav class="blue darken-2">
+	<div class="nav-wrapper container">
+		<div class="col s12">
+			<a href="/admin" class="breadcrumb">Admin</a>
+			<a href="/admin/userlist" class="breadcrumb">Edit User</a>
+			<a href="/admin/edituser/{{id}}" class="breadcrumb">{{email}}</a>
+		</div>
+	</div>
+</nav>
+
+{{#if success_msg}}
+<div class="section no-pad-bot" id="index-banner">
+	<div class="container">
+		<div class="row">
+			<div class="info-message green white-text">
+				{{success_msg}}
+			</div>
+		</div>
+	</div>
+</div>
+{{/if}}
+
+{{#if error_msg}}
+<div class="section no-pad-bot" id="index-banner">
+	<div class="container">
+		<div class="row">
+			<div class="info-message red darken-1 white-text">
+				{{error_msg}}
+			</div>
+		</div>
+	</div>
+</div>
+{{/if}}
+
+{{#if error}}
+<div class="section no-pad-bot" id="index-banner">
+	<div class="container">
+		<div class="row">
+			<div class="info-message red darken-1 white-text">
+				{{error}}
+			</div>
+		</div>
+	</div>
+</div>
+{{/if}}
+
+<div class="section no-pad-bot" id="index-banner">
+	<div class="container center">
+		<div class="row center">
+			<h4>Edit User <b>{{email}}</b></h4>
+			<h5 class="header col s12 light">
+				<div class="row center">
+					<h5>Edit User Information</h5>
+					<form class="center-input" method="post" action="/admin/edituser/{{id}}">
+						<div class="container center">
+							<div class="row">
+								<div class="input-field">
+									<input name="newPassword" type="password" class="validate">
+									<label for="newPassword">New Password</label>
+								</div>
+								<div class="input-field">
+									<input name="confirmPassword" type="password" class="validate">
+									<label for="confirmPassword">Confirm Password</label>
+								</div>
+								<p id="admin-check">
+									<input type="checkbox" class="filled-in" id="admin" name="admin" {{{admin}}} />
+									<label for="admin">Admin Account</label>
+								</p>
+							</div>
+							<button class="btn waves-effect waves-light red" type="submit" name="action">Save Info</button>
+						</div>
+					</form>
+					<br><br><br>
+					<h5>Danger Zone</h5>
+					<a class="btn waves-effect waves-light red modal-trigger" href="#confirm-delete-modal">Delete User</a>
+				</div>
+			</h5>
+		</div>
+	</div>
+</div>
+
+<div id="confirm-delete-modal" class="modal">
+	<div class="modal-content">
+		<h4>Are you sure you want to delete the account belonging to {{email}}?</h4>
+		<p>This action cannot be undone.</p>
+	</div>
+	<div class="modal-footer">
+		<a href="/admin/deluser/{{id}}" class="modal-close waves-effect waves-green btn-flat">Delete</a>
+	</div>
+</div>

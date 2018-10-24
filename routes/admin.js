@@ -59,7 +59,8 @@ router.post('/bulkimport', utils.ensureAdmin, function(req, res) {
 
 		var newUser = new User({
 			email: emails[email],
-			password: "team114"
+			password: "team114",
+			admin: false
 		});
 
 		User.createUser(newUser, function(err, user) {
@@ -69,6 +70,14 @@ router.post('/bulkimport', utils.ensureAdmin, function(req, res) {
 
 	req.flash('success_msg', 'Successfully bulk registered users. Their password is "team114".');
 	res.redirect("/admin");
+});
+
+router.get('/userlist', utils.ensureAdmin, function(req, res) {
+	User.find({}, function(err, users) {
+		res.render('userlist', {
+			users: users
+		});
+	});
 });
 
 router.get('/', utils.ensureAdmin, function(req, res) {
@@ -81,6 +90,57 @@ router.get('/event', utils.ensureAdmin, function(req, res) {
 			events: events
 		});
 	});
+});
+
+router.get('/edituser/:id', utils.ensureAdmin, function(req, res) {
+	User.find({
+		"_id": req.params.id
+	}, function(err, users) {
+
+		res.render('edituser', {
+			id: users[0]["id"],
+			email: users[0]["email"],
+			admin: users[0]["admin"] ? 'checked="checked"' : ''
+		});
+	});
+});
+
+router.get('/deluser/:id', utils.ensureAdmin, function(req, res) {
+	User.remove({
+		"_id": req.params.id
+	}, function(err) {
+		if (err) throw err;
+		req.flash('success_msg', 'Successfully deleted user.');
+		res.redirect('/admin/userlist');
+	});
+});
+
+router.post('/edituser/:id', utils.ensureAdmin, function(req, res) {
+	var password = req.body.password;
+	var admin = req.body.admin == "on";
+	var confirmPassword = req.body.confirmPassword;
+	req.checkBody('newPassword', 'Please enter a password!').notEmpty();
+	req.checkBody('confirmPassword', 'Passwords do not match.').equals(req.body.newPassword);
+
+	var errors = req.validationErrors();
+	if (errors) {
+		req.flash('error_msg', 'Passwords do not match.');
+		res.redirect('/account');
+	} else {
+		User.comparePassword(oldPassword, res.locals.user.password, function(error, isMatch) {
+			if (error) throw error;
+			if (isMatch) {
+				User.changePassword(res.locals.user, newPassword, function(err, user) {
+					if (err) throw err;
+					req.flash('success_msg', 'Successfully changed password.');
+					res.redirect('/account');
+				});
+			} else {
+				req.flash('error_msg', 'Incorrect password.');
+				res.redirect('/account');
+			}
+		});
+	}
 });
 
 router.post('/event', utils.ensureAdmin, function(req, res) {

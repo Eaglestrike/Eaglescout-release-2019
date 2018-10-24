@@ -19,6 +19,7 @@ var admin = require('./routes/admin');
 var account = require('./routes/account');
 var utils = require('./utils');
 var observationForm = require('./observationForm');
+var userlist = require('./userlist');
 
 var User = require('./models/user');
 User.createAdminUserIfNotExists();
@@ -29,7 +30,8 @@ var hbs = exphbs.create({
     helpers: {
         observationForm: observationForm.getObservationFormHandlebarsHelper,
         table: observationForm.getTableHandlebarsHelper,
-        ranking: observationForm.getRankingHandlebarsHelper
+        ranking: observationForm.getRankingHandlebarsHelper,
+        userlist: userlist.getUserListHandlebarsHelper
     }
 });
 
@@ -89,6 +91,8 @@ app.use('/scout/new', scout);
 app.use('/admin', admin);
 app.use('/admin/register', admin);
 app.use('/admin/bulkimport', admin);
+app.use('/admin/edituser', admin);
+app.use('/admin/userlist', admin);
 app.use('/admin/event', admin);
 
 app.set('port', (3000));

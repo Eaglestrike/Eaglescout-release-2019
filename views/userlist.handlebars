@@ -2,7 +2,7 @@
     <div class="nav-wrapper container">
         <div class="col s12">
             <a href="/admin" class="breadcrumb">Admin</a>
-            <a href="/admin" class="breadcrumb">Dashboard</a>
+            <a href="/admin/userlist" class="breadcrumb">User List</a>
         </div>
     </div>
 </nav>
@@ -44,13 +44,9 @@
 {{/if}}
 
 <div class="section no-pad-bot" id="index-banner">
-	<div class="container center">
-		<h1 class="header center blue-text text-darken-4">Eaglescout<span class="bullet"> &bull; </span><span class="subtitle">Admin Dashboard</span></h1>
-        <br>
-        <a class="waves-effect waves-light btn-large red darken-1" href="/admin/register"><i class="material-icons left">account_box</i>Register User</a>
-        <a class="waves-effect waves-light btn-large green darken-1" href="/admin/bulkimport"><i class="material-icons left">insert_drive_file</i>Bulk Import Emails</a>
-        <a class="waves-effect waves-light btn-large blue darken-1" href="/admin/userlist"><i class="material-icons left">account_box</i>View/Edit Users</a>
-        <br><br>
-        <a class="waves-effect waves-light btn-large orange darken-1" href="/admin/event"><i class="material-icons left">edit</i>Change Event</a>
+	<div class="container">
+		<h1 class="header center blue-text text-darken-4">Eaglescout<span class="bullet"> &bull; </span><span class="subtitle">User List</span></h1>
+		<br>
+        {{{userlist users}}}
 	</div>
 </div>

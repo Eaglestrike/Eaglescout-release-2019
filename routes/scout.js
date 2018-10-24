@@ -103,6 +103,7 @@ var Observation = require("../models/observation");
 var utils = require("../utils");
 var TBA = require("../TBA");
 var observationForm = require("../observationForm.js");
+var userlist = require("../userlist.js");
 
 router.get('/list', utils.ensureAuthenticated, function(req, res) {
 	Observation.find({}, function(err, observations) {

@@ -7,7 +7,9 @@ $(document).ready(function() {
 	$('select').material_select();
 	$('input[type=range]').val(0);
 });
-
+$(document).ready(function(){
+	$('.modal').modal();
+});
 $("#ranking-filter-select").change(function() {
 	switch ($(this).val()) {
 		case "switch_cubes":
