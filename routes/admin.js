@@ -46,30 +46,40 @@ router.post('/register', utils.ensureAdmin, function(req, res) {
 
 router.post('/bulkimport', utils.ensureAdmin, function(req, res) {
 	var textbox = req.body.bulkimport;
-	var emails = textbox.split("\n");
+	var password = req.body.password;
 
-	for (var email in emails) {
-		while (emails[email].endsWith("\r")) {
-			emails[email] = emails[email].slice(0, -1);
+	req.checkBody('password', 'Please enter a password!').notEmpty();
+
+	var errors = req.validationErrors();
+	if (errors) {
+		req.flash('error_msg', 'Please enter a password!');
+		res.redirect('/admin/bulkimport');
+	} else {
+		var emails = textbox.split("\n");
+
+		for (var email in emails) {
+			while (emails[email].endsWith("\r")) {
+				emails[email] = emails[email].slice(0, -1);
+			}
+
+			if (emails[email].trim() == "") {
+				continue;
+			}
+
+			var newUser = new User({
+				email: emails[email],
+				password: password,
+				admin: false
+			});
+
+			User.createUser(newUser, function(err, user) {
+				if (err) throw err;
+			});
 		}
 
-		if (emails[email].trim() == "") {
-			continue;
-		}
-
-		var newUser = new User({
-			email: emails[email],
-			password: "team114",
-			admin: false
-		});
-
-		User.createUser(newUser, function(err, user) {
-			if (err) throw err;
-		});
+		req.flash('success_msg', 'Successfully bulk registered users. Their password is "' + password + '".');
+		res.redirect("/admin");
 	}
-
-	req.flash('success_msg', 'Successfully bulk registered users. Their password is "team114".');
-	res.redirect("/admin");
 });
 
 router.get('/userlist', utils.ensureAdmin, function(req, res) {

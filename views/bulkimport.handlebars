@@ -63,9 +63,13 @@
 						<div class="container center">
 							<form class="col s12">
 								<div class="row">
-									<div class="input-field col s12">
+									<div class="input-field">
 										<textarea id="bulkimport" name="bulkimport" class="materialize-textarea"></textarea>
 										<label for="bulkimport">List of emails, one line each</label>
+									</div>
+									<div class="input-field">
+										<input name="password" type="text" class="validate">
+										<label for="password">Password for all imported accounts</label>
 									</div>
 								</div>
 								<button class="btn waves-effect waves-light red" type="submit" name="action">Import</button>
