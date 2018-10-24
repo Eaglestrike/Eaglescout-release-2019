@@ -26,8 +26,9 @@ module.exports.createUser = function(newUser, callback) {
 }
 
 module.exports.getUserByEmail = function(email, callback) {
-	var query = {email: email};
-	User.findOne(query, callback);
+	User.findOne({
+		email: email
+	}, callback);
 };
 
 module.exports.getUserById = function(id, callback) {
@@ -63,4 +64,9 @@ module.exports.changePassword = function(user, password, callback) {
 			user.save(callback);
 		});
 	});
+};
+
+module.exports.toggleAdmin = function(user, admin, callback) {
+	user.admin = admin;
+	user.save(callback);
 };

@@ -92,19 +92,6 @@ router.get('/event', utils.ensureAdmin, function(req, res) {
 	});
 });
 
-router.get('/edituser/:id', utils.ensureAdmin, function(req, res) {
-	User.find({
-		"_id": req.params.id
-	}, function(err, users) {
-
-		res.render('edituser', {
-			id: users[0]["id"],
-			email: users[0]["email"],
-			admin: users[0]["admin"] ? 'checked="checked"' : ''
-		});
-	});
-});
-
 router.get('/deluser/:id', utils.ensureAdmin, function(req, res) {
 	User.remove({
 		"_id": req.params.id
@@ -115,32 +102,51 @@ router.get('/deluser/:id', utils.ensureAdmin, function(req, res) {
 	});
 });
 
-router.post('/edituser/:id', utils.ensureAdmin, function(req, res) {
-	var password = req.body.password;
-	var admin = req.body.admin == "on";
-	var confirmPassword = req.body.confirmPassword;
-	req.checkBody('newPassword', 'Please enter a password!').notEmpty();
-	req.checkBody('confirmPassword', 'Passwords do not match.').equals(req.body.newPassword);
-
-	var errors = req.validationErrors();
-	if (errors) {
-		req.flash('error_msg', 'Passwords do not match.');
-		res.redirect('/account');
-	} else {
-		User.comparePassword(oldPassword, res.locals.user.password, function(error, isMatch) {
-			if (error) throw error;
-			if (isMatch) {
-				User.changePassword(res.locals.user, newPassword, function(err, user) {
-					if (err) throw err;
-					req.flash('success_msg', 'Successfully changed password.');
-					res.redirect('/account');
-				});
-			} else {
-				req.flash('error_msg', 'Incorrect password.');
-				res.redirect('/account');
-			}
+router.get('/edituser/:id', utils.ensureAdmin, function(req, res) {
+	User.findOne({
+		"_id": req.params.id
+	}, function(err, user) {
+		res.render('edituser', {
+			id: user["id"],
+			email: user["email"],
+			admin: user["admin"] ? 'checked="checked"' : ''
 		});
-	}
+	});
+});
+
+router.post('/toggleadmin/:id', utils.ensureAdmin, function(req, res) {
+	User.findOne({
+		"_id": req.params.id
+	}, function(err, user) {
+		User.toggleAdmin(user, req.body.admin == "on", function(err, user) {
+			if (err) throw err;
+			req.flash('success_msg', 'Successfully toggled admin state of user.');
+			res.redirect('/admin/edituser/' + req.params.id);
+		});
+	});	
+});
+
+router.post('/changepassword/:id', utils.ensureAdmin, function(req, res) {
+	User.findOne({
+		"_id": req.params.id
+	}, function(err, user) {
+		var newPassword = req.body.newPassword;
+		var confirmPassword = req.body.confirmPassword;
+		req.checkBody('newPassword', 'Please enter a password!').notEmpty();
+		req.checkBody('confirmPassword', 'Passwords do not match.').equals(req.body.newPassword);
+
+		var errors = req.validationErrors();
+		if (errors) {
+			req.flash('error_msg', 'Passwords do not match.');
+			res.redirect('/admin/edituser/' + req.params.id);
+		} else {
+			User.changePassword(user, newPassword, function(err, user) {
+				if (err) throw err;
+				req.flash('success_msg', 'Successfully changed password of user.');
+				res.redirect('/admin/edituser/' + req.params.id);
+			});
+		}
+	});
 });
 
 router.post('/event', utils.ensureAdmin, function(req, res) {
