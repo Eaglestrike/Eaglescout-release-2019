@@ -10,16 +10,23 @@ Latest development year: 2018.
 * MongoDB
 
 ## Installation
-To clone the repository:
+1. Clone the repository:
 ```bash
 git clone https://github.com/Eaglestrike/Eaglescout.git
 ```
-To install node modules:
+2. Install node modules:
 ```bash
 npm install
 ```
 
-To install node modules:
+3. Create a secrets file called `secrets.json` in your Eaglescout directory and populate it with your [API key from The Blue Alliance](https://www.thebluealliance.com/apidocs).
+```json
+{
+        "TBA_API_KEY": "=== YOUR TBA API KEY HERE ==="
+}
+```
+
+4. Run the app:
 ```bash
 node app.js
 ```
