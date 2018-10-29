@@ -118,6 +118,11 @@ router.get('/event', utils.ensureAdmin, function(req, res) {
 });
 
 router.get('/deluser/:id', utils.ensureAdmin, function(req, res) {
+	if (res.locals.user.id == req.params.id) {
+		req.flash('error_msg', 'You cannot delete your own account! Did NOT delete user!');
+		res.redirect('/admin/edituser/' + req.params.id);
+		return;
+	}
 	User.remove({
 		"_id": req.params.id
 	}, function(err) {
