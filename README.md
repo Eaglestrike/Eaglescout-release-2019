@@ -10,23 +10,16 @@ Latest development year: 2018.
 * MongoDB
 
 ## Installation
-1. Clone the repository:
+To clone the repository:
 ```bash
 git clone https://github.com/Eaglestrike/Eaglescout.git
 ```
-2. Install node modules:
+To install node modules:
 ```bash
 npm install
 ```
 
-3. Create a secrets file called `secrets.json` in your Eaglescout directory and populate it with your [API key from The Blue Alliance](https://www.thebluealliance.com/apidocs).
-```json
-{
-        "TBA_API_KEY": "=== YOUR TBA API KEY HERE ==="
-}
-```
-
-4. Run the app:
+To install node modules:
 ```bash
 node app.js
 ```
@@ -119,5 +112,11 @@ var observationFormSchema = {
 	}
 }
 ```
+
+## Default Admin User
+Username: `admin@team114.org`
+Password: `team114`
+
+You can change this in `models/user.js` under the `createAdminUserIfNotExists` function. Alternatively, you can create a new admin user via the admin panel and delete the old one.
 
 Default port: 3000
