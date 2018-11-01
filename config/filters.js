@@ -1,0 +1,80 @@
+module.exports = {
+	switch_cubes: {
+		'switch_cubes': 1,
+		'scale_cubes': 0,
+		'exchange_cubes': 0,
+		'cubes_dropped': 0,
+		'climbed': 0,
+		'lifted': 0,
+		'auton_drove_forward': 0,
+		'auton_switch': 1,
+		'auton_scale': 0,
+		'death_percent': 0,
+		'speeds': 0
+	},
+	scale_cubes: {
+		'switch_cubes': 0,
+		'scale_cubes': 1,
+		'exchange_cubes': 0,
+		'cubes_dropped': 0,
+		'climbed': 0,
+		'lifted': 0,
+		'auton_drove_forward': 0,
+		'auton_switch': 0,
+		'auton_scale': 1,
+		'death_percent': 0,
+		'speeds': 0
+	},
+	exchange_cubes: {
+		'switch_cubes': 0,
+		'scale_cubes': 0,
+		'exchange_cubes': 1,
+		'cubes_dropped': 0,
+		'climbed': 0,
+		'lifted': 0,
+		'auton_drove_forward': 0,
+		'auton_switch': 0,
+		'auton_scale': 0,
+		'death_percent': 0,
+		'speeds': 0
+	},
+	climb: {
+		'switch_cubes': 0,
+		'scale_cubes': 0,
+		'exchange_cubes': 0,
+		'cubes_dropped': 0,
+		'climbed': 1,
+		'lifted': 0,
+		'auton_drove_forward': 0,
+		'auton_switch': 0,
+		'auton_scale': 0,
+		'death_percent': 0,
+		'speeds': 0
+	},
+	lift: {
+		'switch_cubes': 0,
+		'scale_cubes': 0,
+		'exchange_cubes': 0,
+		'cubes_dropped': 0,
+		'climbed': 0,
+		'lifted': 1,
+		'auton_drove_forward': 0,
+		'auton_switch': 0,
+		'auton_scale': 0,
+		'death_percent': 0,
+		'speeds': 0
+	},
+	speed: {
+		'switch_cubes': 0,
+		'scale_cubes': 0,
+		'exchange_cubes': 0,
+		'cubes_dropped': 0,
+		'climbed': 0,
+		'lifted': 0,
+		'auton_drove_forward': 0,
+		'auton_switch': 0,
+		'auton_scale': 0,
+		'death_percent': 0,
+		'speeds': 10
+	}
+};

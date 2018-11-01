@@ -1,5 +1,5 @@
 const https = require("https");
-const config = require("./config");
+const config = require("./config/config");
 const utils = require("./utils");
 const keys = require("./keys");
 

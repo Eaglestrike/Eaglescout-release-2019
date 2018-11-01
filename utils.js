@@ -25,7 +25,7 @@ module.exports = {
 		}
 	},
 	getCurrentEvent: function() {
-		var buffer = fs.readFileSync('state.db');
+		var buffer = fs.readFileSync('./config/state.db');
 		var json = JSON.parse(buffer.toString());
 		return json["current_event"];
 	},

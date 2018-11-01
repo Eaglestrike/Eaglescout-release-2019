@@ -192,13 +192,13 @@ router.post('/event', utils.ensureAdmin, function(req, res) {
 			});
 		});
 	} else {
-		fs.readFile('state.db', function(err, buf) {
+		fs.readFile('./config/state.db', function(err, buf) {
 			if (err) throw err;
 			
 			var json = JSON.parse(buf.toString());
 			json["current_event"] = event;
 
-			fs.writeFile('state.db', JSON.stringify(json), function(error, data) {
+			fs.writeFile('./config/state.db', JSON.stringify(json), function(error, data) {
 				if (error) throw error;
 				
 				req.flash('success_msg', 'Successfully changed event.');
