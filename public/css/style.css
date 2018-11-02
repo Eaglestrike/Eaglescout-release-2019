@@ -91,6 +91,17 @@ input[type=range] + .thumb.active .value {
 	border-right: 2px solid #1976d2;
 	border-bottom: 2px solid #1976d2;
 }
+.increment_number {
+	text-align: center;
+}
+.increment_number::-webkit-inner-spin-button, 
+.increment_number::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+.increment_number_minus_button, .increment_number_plus_button {
+	font-size: 1.7em;
+}
 
 @media all and (max-width: 768px) {
 	span.bullet {

@@ -10,6 +10,7 @@ var TBA = require('./TBA');
 - multiple_choice [requires data]
 - checkbox [requires data]
 - number 
+- increment_number 
 - slider [requires data]
 ********************/
 
@@ -182,28 +183,28 @@ var observationFormSchema = {
 	},
 	teleop_scale_cubes: {
 		type: String,
-		input: "number",
+		input: "increment_number",
 		placeholder: "Number only",
 		title: "[Teleop] Number of cubes on scale",
 		subtitle: "Put the number of cubes they put on the scale here"
 	},
 	teleop_switch_cubes: {
 		type: String,
-		input: "number",
+		input: "increment_number",
 		placeholder: "Number only",
 		title: "[Teleop] Number of cubes on switch",
 		subtitle: "Put the number of cubes they put on the switch here"
 	},
 	teleop_exchange_cubes: {
 		type: String,
-		input: "number",
+		input: "increment_number",
 		placeholder: "Number only",
 		title: "[Teleop] Number of cubes put in the exchange",
 		subtitle: "Put the number of cubes they put int the exchange/vault here"
 	},
 	teleop_cubes_dropped: {
 		type: String,
-		input: "number",
+		input: "increment_number",
 		placeholder: "Number only",
 		title: "[Teleop] Number of cubes dropped",
 		subtitle: "Put the number of cubes that the robot dropped here"
@@ -366,6 +367,14 @@ function getObservationFormHandlebarsHelper(structure, options) {
 			} else if (structure[category].input == "number") {
 				finalString += '<div class="input-field">\n';
 				finalString += '<input class="validate" placeholder="' + structure[category].placeholder + '" name="' + category + '" type="number">\n';
+          		finalString += '</div>\n';
+			} else if (structure[category].input == "increment_number") {
+				finalString += '<div class="input-field row">\n';
+				finalString += '<a class="waves-effect light-blue darken-3 waves-light btn increment_number_minus_button col s2" data-for="' + category + '">-</a>';
+				finalString += '<div class="col s1"></div>';
+				finalString += '<input class="validate increment_number col s6" placeholder="' + structure[category].placeholder + '" name="' + category + '" type="number" value="0">\n';
+				finalString += '<div class="col s1"></div>';
+				finalString += '<a class="waves-effect light-blue darken-3 waves-light btn increment_number_plus_button col s2" data-for="' + category + '">+</a>';
           		finalString += '</div>\n';
 			} else if (structure[category].input == "slider") {
 				finalString += '<p class="range-field">';

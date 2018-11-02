@@ -38,3 +38,13 @@ $("#ranking-filter-select").change(function() {
 			break;
 	}
 });
+
+$(".increment_number_minus_button").click(function() {
+	var element_for = $(this).data("for");
+	$('input[name="' + element_for + '"]').val(parseInt($('input[name="' + element_for + '"]').val()) - 1);
+});
+
+$(".increment_number_plus_button").click(function() {
+	var element_for = $(this).data("for");
+	$('input[name="' + element_for + '"]').val(parseInt($('input[name="' + element_for + '"]').val()) + 1);
+});
