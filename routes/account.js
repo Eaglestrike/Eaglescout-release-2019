@@ -22,7 +22,6 @@ router.post('/', utils.ensureAuthenticated, function(req, res) {
 		User.comparePassword(oldPassword, res.locals.user.password, function(error, isMatch) {
 			if (error) throw error;
 			if (isMatch) {
-				console.log("test");
 				User.changePassword(res.locals.user, newPassword, function(err, user) {
 					if (err) throw err;
 					req.flash('success_msg', 'Successfully changed password.');
