@@ -86,6 +86,7 @@ app.use('/', login);
 app.use('/account', account);
 app.use('/scout', scout);
 app.use('/scout/list', scout);
+app.use('/scout/editobservation', scout);
 app.use('/scout/teamranking', scout);
 app.use('/scout/new', scout);
 app.use('/admin', admin);

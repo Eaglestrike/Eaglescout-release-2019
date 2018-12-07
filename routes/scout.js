@@ -170,6 +170,49 @@ router.post('/new', utils.ensureAuthenticated, function(req, res) {
 	res.redirect("/scout");
 });
 
+router.get('/editobservation/:id', utils.ensureAuthenticated, function(req, res) {
+	Observation.findOne({
+		"_id": req.params.id
+	}, function(err, observation) {
+		if (observation == null) {
+			req.flash('error_msg', 'Invalid ID!');
+			res.redirect('/scout/list');
+			return;
+		}
+		if (res.locals.user.admin || res.locals.user.email == observation.user) {
+			res.render('editobservation', {
+				observation: observation
+			});
+		} else {
+			req.flash('error_msg', 'Insufficient permissions.');
+			res.redirect('/scout/list');
+			return;
+		}
+	});
+
+
+
+
+
+return;
+	if (res.locals.user.admin) {
+		Observation.find({}, function(err, observations) {
+			console.log(observations);
+			res.render('edit', {
+				observations: observations
+			});
+		});
+	} else {
+		Observation.find({
+			user: res.locals.user.email
+		}, function(err, observations) {
+			res.render('userlist', {
+				observations: observations
+			});
+		});
+	}
+});
+
 router.get('/', utils.ensureAuthenticated, function(req, res) {
 	res.render('scout');
 });

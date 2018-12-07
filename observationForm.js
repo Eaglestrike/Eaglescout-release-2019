@@ -391,6 +391,8 @@ function getObservationFormHandlebarsHelper(structure, options) {
 function getTableHandlebarsHelper(structure, options) {
 	var finalString = "<table class='bordered'>\n<thead>\n";
 	for (var category in tableStructure) finalString += "<th>" + tableStructure[category]["name"] + "</th>\n";
+	finalString += "<th>Edit</th>\n";
+	finalString += "</thead>\n";
 	for (var observation in structure) {
 		finalString += "<tr>";
 		for (var category in tableStructure) {
@@ -409,9 +411,9 @@ function getTableHandlebarsHelper(structure, options) {
 				finalString += "<td>" + structure[observation][data] + "</td>";
 			}
 		}
+		finalString += "<td><a class='waves-effect waves-light btn-large red' href='/scout/editobservation/" + structure[observation]["_id"] + "'><i class='material-icons left'>create</i>Edit</a></td>";
 		finalString += "</tr>";
 	}
-	finalString += "</thead>\n";
 	finalString += "</table>";
 	return finalString;
 }
