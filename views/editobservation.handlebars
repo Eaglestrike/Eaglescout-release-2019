@@ -47,41 +47,7 @@
 	<div class="container">
 		<div class="center">
 			<h5>Edit Observation for <b>Team {{observation.team}}</b> by user <b>{{observation.user}}</b></h5>
-				<!--<h5 class="header col s12 light">
-					<div class="row center">
-						<h5>Edit User Information</h5>
-						<form class="center-input" method="post" action="/admin/changepassword/{{id}}">
-							<div class="container center">
-								<div class="row">
-									<div class="input-field">
-										<input name="newPassword" type="password" class="validate">
-										<label for="newPassword">New Password</label>
-									</div>
-									<div class="input-field">
-										<input name="confirmPassword" type="password" class="validate">
-										<label for="confirmPassword">Confirm Password</label>
-									</div>
-								</div>
-								<button class="btn waves-effect waves-light red" type="submit" name="action">Change Password</button>
-							</div>
-						</form>
-						<br><br><br>
-						<form class="center-input" method="post" action="/admin/toggleadmin/{{id}}">
-							<div class="container center">
-								<div class="row">
-									<p id="admin-check">
-										<input type="checkbox" class="filled-in" id="admin" name="admin" {{{admin}}} />
-										<label for="admin">Admin Account</label>
-									</p>
-								</div>
-								<button class="btn waves-effect waves-light red" type="submit" name="action">Save Admin State</button>
-							</div>
-						</form>
-						<br><br><br>
-						<h5>Danger Zone</h5>
-						<a class="btn waves-effect waves-light red modal-trigger" href="#confirm-delete-modal">Delete User</a>
-					</div>
-				</h5>-->
-			</div>
+			{{{editForm observation structure }}}
+		</div>
 	</div>
 </div>

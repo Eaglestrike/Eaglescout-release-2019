@@ -388,7 +388,78 @@ function getObservationFormHandlebarsHelper(structure, options) {
 	return finalString;
 }
 
-function getTableHandlebarsHelper(structure, options) {
+function getEditObservationHandlebarsHelper(observation, structure, options) {
+	var id = 0;
+
+	var finalString = '<form method="post" action="/scout/save">\n<div class="container">\n<div class="row">';
+	for (var category in structure) {
+		if (category == "events") continue;
+		finalString += '<p>';
+		finalString += '<b>' + structure[category].title + '</b>\n<br>\n' + structure[category].subtitle + '\n';
+		finalString += '</p>';
+		if (category == "competition") {
+			finalString += '<select name="competition">\n';
+			finalString += '<option value="" disabled ' + (utils.getCurrentEvent() == null ? 'selected' : '') + '>Choose event from list</option>\n';
+			for (var event in structure.events) {
+				finalString += '<option value="' + structure.events[event]["key"] + '"' + (structure.events[event]["key"] == observation[category] ? ' selected' : '') + '>' + structure.events[event]["name"] + '</option>\n';
+			}
+			finalString += '</select>\n';
+		} else {
+			if (structure[category].input == "dropdown") {
+				finalString += '<select name="' + category + '">\n';
+				finalString += '<option value="" disabled selected>' + structure[category].placeholder + '</option>\n';
+				for (var option in structure[category].data) {
+					finalString += '<option value="' + option + '"' + (option == observation[category] ? ' selected' : '') + '>' + (structure[category].data)[option] + '</option>\n';
+				}
+				finalString += '</select>\n';
+			} else if (structure[category].input == "multiple_choice") {
+				for (var option in structure[category].data) {
+					finalString += '<p>\n';
+      				finalString += '<input class="with-gap" name="' + category + '" value="' + option + '" type="radio" id="' + option + '_' + id + '"' + (option == observation[category] ? ' checked' : '') + ' />\n';
+      				finalString += '<label for="' + option + '_' + (id ++) + '">' + (structure[category].data)[option] + '</label>\n';
+      				finalString += '</p>\n';
+      			}
+			} else if (structure[category].input == "long_text") {
+				finalString += '<div class="input-field">\n';
+				finalString += '<textarea name="' + category + '" class="materialize-textarea">' + observation[category] + '</textarea>\n';
+          		finalString += '<label for="' + category + '">Message</label>\n';
+          		finalString += '</div>\n';
+			} else if (structure[category].input == "short_text") {
+				finalString += '<div class="input-field">\n';
+				finalString += '<input placeholder="' + structure[category].placeholder + '" name="' + category + '" type="text" value="' + observation[category] + '">\n';
+          		finalString += '</div>\n';
+			} else if (structure[category].input == "checkbox") {
+				finalString += '<select name="' + category + '" multiple>\n';
+				finalString += '<option value="" disabled selected>' + structure[category].placeholder + '</option>\n';
+				for (var option in structure[category].data) {
+					finalString += '<option value="' + option + '"' + (option == observation[category] ? ' checked="checked"' : '') + '>' + (structure[category].data)[option] + '</option>\n';
+				}
+				finalString += '</select>\n';
+			} else if (structure[category].input == "number") {
+				finalString += '<div class="input-field">\n';
+				finalString += '<input class="validate" placeholder="' + structure[category].placeholder + '" name="' + category + '" type="number" value="' + observation[category] + '">\n';
+          		finalString += '</div>\n';
+			} else if (structure[category].input == "increment_number") {
+				finalString += '<div class="input-field row">\n';
+				finalString += '<a class="waves-effect light-blue darken-3 waves-light btn increment_number_minus_button col s2" data-for="' + category + '">-</a>';
+				finalString += '<div class="col s1"></div>';
+				finalString += '<input class="validate increment_number col s6" placeholder="' + structure[category].placeholder + '" name="' + category + '" type="number" value="' + observation[category] + '">\n';
+				finalString += '<div class="col s1"></div>';
+				finalString += '<a class="waves-effect light-blue darken-3 waves-light btn increment_number_plus_button col s2" data-for="' + category + '">+</a>';
+          		finalString += '</div>\n';
+			} else if (structure[category].input == "slider") {
+				finalString += '<p class="range-field">';
+			    finalString += '<input type="range" name="' + category + '" min="' + (structure[category].data)["min"] + '" max="' + (structure[category].data)["max"] + '" value="' + observation[category] + '" />';
+			    finalString += '</p>';
+			}
+		}
+		finalString += '<br>';
+	}
+	finalString += '</div>\n</div>\n<div class="center">\n<button class="btn waves-effect waves-light green" type="submit" name="action">Submit</button>\n</div>\n</form>';
+	return finalString;
+}
+
+function getTableHandlebarsHelper(structure, res, options) {
 	var finalString = "<table class='bordered'>\n<thead>\n";
 	for (var category in tableStructure) finalString += "<th>" + tableStructure[category]["name"] + "</th>\n";
 	finalString += "<th>Edit</th>\n";
@@ -411,7 +482,7 @@ function getTableHandlebarsHelper(structure, options) {
 				finalString += "<td>" + structure[observation][data] + "</td>";
 			}
 		}
-		finalString += "<td><a class='waves-effect waves-light btn-large red' href='/scout/editobservation/" + structure[observation]["_id"] + "'><i class='material-icons left'>create</i>Edit</a></td>";
+		finalString += "<td><a class='waves-effect waves-light btn-large red" + (res.locals.user.admin || res.locals.user.email == structure[observation]["user"] ? "" : " disabled") + "' href='/scout/editobservation/" + structure[observation]["_id"] + "'><i class='material-icons left'>create</i>Edit</a></td>";
 		finalString += "</tr>";
 	}
 	finalString += "</table>";
@@ -443,6 +514,7 @@ module.exports = {
 	getObservationFormSchema: getObservationFormSchema,
 	getObservationFormStructure: getObservationFormStructure,
 	getObservationFormHandlebarsHelper: getObservationFormHandlebarsHelper,
+	getEditObservationHandlebarsHelper: getEditObservationHandlebarsHelper,
 	getTableHandlebarsHelper: getTableHandlebarsHelper,
 	getRankingHandlebarsHelper: getRankingHandlebarsHelper
 };

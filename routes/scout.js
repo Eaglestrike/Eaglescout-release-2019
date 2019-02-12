@@ -14,7 +14,8 @@ router.get('/list', utils.ensureAuthenticated, function(req, res) {
 			return a.team - b.team;
 		});
 		res.render('list', {
-			observations: observations
+			observations: observations,
+			res: res
 		});
 	});
 });
@@ -171,46 +172,57 @@ router.post('/new', utils.ensureAuthenticated, function(req, res) {
 });
 
 router.get('/editobservation/:id', utils.ensureAuthenticated, function(req, res) {
-	Observation.findOne({
-		"_id": req.params.id
-	}, function(err, observation) {
-		if (observation == null) {
-			req.flash('error_msg', 'Invalid ID!');
-			res.redirect('/scout/list');
-			return;
-		}
-		if (res.locals.user.admin || res.locals.user.email == observation.user) {
-			res.render('editobservation', {
-				observation: observation
-			});
-		} else {
-			req.flash('error_msg', 'Insufficient permissions.');
-			res.redirect('/scout/list');
-			return;
-		}
-	});
-
-
-
-
-
-return;
 	if (res.locals.user.admin) {
-		Observation.find({}, function(err, observations) {
-			console.log(observations);
-			res.render('edit', {
-				observations: observations
+		Observation.findOne({
+			"_id": req.params.id
+		}, function(err, observation) {
+			if (err || observation == null) {
+				req.flash('error_msg', 'Unknown observation ID!');
+				res.redirect('/scout/list');
+				return;
+			}
+			TBA.getEvents((events) => {
+				var structure = observationForm.getObservationFormStructure();
+				structure.events = events;
+				res.render('editobservation', {
+					observation: observation,
+					structure: structure
+				});
 			});
 		});
 	} else {
-		Observation.find({
+		Observation.findOne({
+			"_id": req.params.id,
 			user: res.locals.user.email
-		}, function(err, observations) {
-			res.render('userlist', {
-				observations: observations
+		}, function(err, observation) {
+			if (err || observation == null) {
+				req.flash('error_msg', 'Insufficient permissions OR unknown observation ID!');
+				res.redirect('/scout/list');
+				return;
+			}
+			TBA.getEvents((events) => {
+				var structure = observationForm.getObservationFormStructure();
+				structure.events = events;
+				res.render('editobservation', {
+					observation: observation,
+					structure: structure
+				});
 			});
 		});
 	}
+});
+
+router.post('/newobservation/:id', utils.ensureAuthenticated, function(req, res) {
+	req.body.user = res.locals.user.email;
+	delete req.body.action;
+	var newObservation = new Observation(req.body);
+
+	Observation.createObservation(newObservation, function(err, user) {
+		if (err) throw err;
+	});
+
+	req.flash('success_msg', 'Successfully created observation.');
+	res.redirect("/scout");
 });
 
 router.get('/', utils.ensureAuthenticated, function(req, res) {

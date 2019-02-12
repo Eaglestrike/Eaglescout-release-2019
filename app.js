@@ -29,6 +29,7 @@ var hbs = exphbs.create({
     defaultLayout: 'layout',
     helpers: {
         observationForm: observationForm.getObservationFormHandlebarsHelper,
+        editForm: observationForm.getEditObservationHandlebarsHelper,
         table: observationForm.getTableHandlebarsHelper,
         ranking: observationForm.getRankingHandlebarsHelper,
         userlist: userlist.getUserListHandlebarsHelper
