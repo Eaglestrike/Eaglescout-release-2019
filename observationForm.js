@@ -49,37 +49,53 @@ var tableStructure = {
 				name: "Match Number",
 				data: "match"
 			},
-			auto_cross_line: {
-				name: "[Auto] Crossed auto line",
-				data: "auto_cross_line"
+			sandstorm_hab_level: {
+				name: "[Sandstorm] HAB Level",
+				data: "sandstorm_hab_level"
 			},
-			auto_scale_cubes: {
-				name: "[Auto] Bot put cubes on scale",
-				data: "auto_scale_cubes"
+			sandstorm_hatches: {
+				name: "[Sandstorm] Number of hatches placed",
+				data: "sandstorm_hatches"
 			},
-			auto_switch_cubes: {
-				name: "[Auto] Bot put cubes on switch",
-				data: "auto_switch_cubes"
+			sandstorm_balls: {
+				name: "[Sandstorm] Number of balls placed",
+				data: "sandstorm_balls"
 			},
-			auto_comments: {
-				name: "[Auto] Extra comments",
-				data: "auto_comments"
+			sandstorm_comments: {
+				name: "[Sandstorm] Extra comments",
+				data: "sandstorm_comments"
 			},
-			teleop_scale_cubes: {
-				name: "[Teleop] Number of cubes on scale",
-				data: "teleop_scale_cubes"
+			teleop_hatch_cargo: {
+				name: "[Teleop] Hatches scored in cargo ship",
+				data: "teleop_hatch_cargo"
 			},
-			teleop_switch_cubes: {
-				name: "[Teleop] Number of cubes on switch",
-				data: "teleop_switch_cubes"
+			teleop_hatch_bottom: {
+				name: "[Teleop] Hatches scored in bottom of rocket",
+				data: "teleop_hatch_bottom"
 			},
-			teleop_exchange_cubes: {
-				name: "[Teleop] Number of cubes put in the exchange",
-				data: "teleop_exchange_cubes"
+			teleop_hatch_middle: {
+				name: "[Teleop] Hatches scored in middle of rocket",
+				data: "teleop_hatch_middle"
 			},
-			teleop_cubes_dropped: {
-				name: "[Teleop] Number of cubes dropped",
-				data: "teleop_cubes_dropped"
+			teleop_hatch_top: {
+				name: "[Teleop] Hatches scored in top of rocket",
+				data: "teleop_hatch_top"
+			},
+			teleop_ball_cargo: {
+				name: "[Teleop] Balls scored in cargo ship",
+				data: "teleop_ball_cargo"
+			},
+			teleop_ball_bottom: {
+				name: "[Teleop] Balls scored in bottom of rocket",
+				data: "teleop_ball_bottom"
+			},
+			teleop_ball_middle: {
+				name: "[Teleop] Balls scored in middle of rocket",
+				data: "teleop_ball_middle"
+			},
+			teleop_ball_top: {
+				name: "[Teleop] Balls scored in top of rocket",
+				data: "teleop_hatch_top"
 			},
 			teleop_robot_died: {
 				name: "[Teleop] Robot died",
@@ -89,6 +105,10 @@ var tableStructure = {
 				name: "[Teleop] How long robot was dead",
 				data: "teleop_time_robot_died"
 			},
+			teleop_comments: {
+				name: "[Teleop] Extra comments",
+				data: "teleop_comments"
+			},
 			driver_comments: {
 				name: "[Driver] Comments",
 				data: "driver_comments"
@@ -97,13 +117,17 @@ var tableStructure = {
 				name: "[Defense] Percent of time on defense",
 				data: "time_on_defense"
 			},
+			intakes: {
+				name: "[Bot] Intake types",
+				data: "intakes"
+			},
 			speed: {
 				name: "[Bot] Speed compared to our robot",
 				data: "speed"
 			},
-			endgame_successful_climb: {
-				name: "[Endgame] Successful climb",
-				data: "endgame_successful_climb"
+			endgame_climb: {
+				name: "[Endgame] Climb level",
+				data: "endgame_climb"
 			},
 			endgame_help_others_climb: {
 				name: "[Endgame] Helped other robots with climb",
@@ -143,71 +167,96 @@ var observationFormSchema = {
 		title: "Team Number",
 		subtitle: "This is the team number that you are observing"
 	},
-	auto_cross_line: {
+	sandstorm_hab_level: {
 		type: String,
 		input: "multiple_choice",
 		data: {
-			"yes": "Yes",
-			"no": "No"
+			"level1": "Level 1",
+			"level2": "Level 2",
+			"level3": "Level 3",
+			"level1_fail": "Level 1 (attempted and failed)",
+			"level2_fail": "Level 2 (attempted and failed)",
+			"level3_fail": "Level 3 (attempted and failed)",
+			"fail": "Didn't move during sandstorm"
 		},
-		title: "[Auto] Crossed auto line?",
-		subtitle: "Did the bot cross the auto line during auto?"
+		title: "[Sandstorm] HAB Level",
+		subtitle: "What level did the robot leave off of the HAB and were they successful?"
 	},
-	auto_scale_cubes: {
+	sandstorm_hatches: {
 		type: String,
-		input: "multiple_choice",
-		data: {
-			"yes": "Yes",
-			"no": "No",
-			"attempted": "Attempted and failed"
-		},
-		title: "[Auto] Did the bot put cubes on scale?",
-		subtitle: "Did the bot put cubes on the scale during auto?"
+		input: "increment_number",
+		placeholder: "Number only",
+		title: "[Sandstorm] Number of hatches placed",
+		subtitle: "How many hatches did they score during teleop?"
 	},
-	auto_switch_cubes: {
+	sandstorm_balls: {
 		type: String,
-		input: "multiple_choice",
-		data: {
-			"yes": "Yes",
-			"no": "No",
-			"attempted": "Attempted and failed"
-		},
-		title: "[Auto] Did the bot put cubes on switch?",
-		subtitle: "Did the bot put cubes on the switch during auto?"
+		input: "increment_number",
+		placeholder: "Number only",
+		title: "[Sandstorm] Number of balls placed",
+		subtitle: "How many balls did they score during teleop?"
 	},
-	auto_comments: {
+	sandstorm_comments: {
 		type: String,
 		input: "long_text",
-		title: "[Auto] Any extra comments about auto?",
-		subtitle: "Put anything that would be noteworthy about auto here."
+		title: "[Sandstorm] Extra comments",
+		subtitle: "Write anything that might be noteworthy about the sandstorm period here."
 	},
-	teleop_scale_cubes: {
+	teleop_hatch_cargo: {
 		type: String,
 		input: "increment_number",
 		placeholder: "Number only",
-		title: "[Teleop] Number of cubes on scale",
-		subtitle: "Put the number of cubes they put on the scale here"
+		title: "[Teleop] Hatches scored in cargo ship",
+		subtitle: "How many hatches did they score on the cargo ship during teleop?"
 	},
-	teleop_switch_cubes: {
+	teleop_hatch_bottom: {
 		type: String,
 		input: "increment_number",
 		placeholder: "Number only",
-		title: "[Teleop] Number of cubes on switch",
-		subtitle: "Put the number of cubes they put on the switch here"
+		title: "[Teleop] Hatches scored in bottom of rocket",
+		subtitle: "How many hatches did they score on the bottom of the rocket during teleop?"
 	},
-	teleop_exchange_cubes: {
+	teleop_hatch_middle: {
 		type: String,
 		input: "increment_number",
 		placeholder: "Number only",
-		title: "[Teleop] Number of cubes put in the exchange",
-		subtitle: "Put the number of cubes they put int the exchange/vault here"
+		title: "[Teleop] Hatches scored in middle of rocket",
+		subtitle: "How many hatches did they score on the middle of the rocket during teleop?"
 	},
-	teleop_cubes_dropped: {
+	teleop_hatch_top: {
 		type: String,
 		input: "increment_number",
 		placeholder: "Number only",
-		title: "[Teleop] Number of cubes dropped",
-		subtitle: "Put the number of cubes that the robot dropped here"
+		title: "[Teleop] Hatches scored in top of rocket",
+		subtitle: "How many hatches did they score on the top of the rocket during teleop?"
+	},
+	teleop_ball_cargo: {
+		type: String,
+		input: "increment_number",
+		placeholder: "Number only",
+		title: "[Teleop] Balls scored in cargo ship",
+		subtitle: "How many balls did they score in the cargo ship during teleop?"
+	},
+	teleop_ball_bottom: {
+		type: String,
+		input: "increment_number",
+		placeholder: "Number only",
+		title: "[Teleop] Balls scored in bottom of rocket",
+		subtitle: "How many balls did they score in the bottom of the rocket during teleop?"
+	},
+	teleop_ball_middle: {
+		type: String,
+		input: "increment_number",
+		placeholder: "Number only",
+		title: "[Teleop] Balls scored in middle of rocket",
+		subtitle: "How many balls did they score in the middle of the rocket during teleop?"
+	},
+	teleop_ball_top: {
+		type: String,
+		input: "increment_number",
+		placeholder: "Number only",
+		title: "[Teleop] Balls scored in top of rocket",
+		subtitle: "How many balls did they score in the top of the rocket during teleop?"
 	},
 	teleop_robot_died: {
 		type: String,
@@ -226,6 +275,12 @@ var observationFormSchema = {
 		title: "[Teleop] Amount of time that robot was dead",
 		subtitle: "If the robot didn't die, leave this blank"
 	},
+	teleop_comments: {
+		type: String,
+		input: "long_text",
+		title: "[Teleop] Extra comments",
+		subtitle: "Write anything that might be noteworthy about teleop here."
+	},
 	driver_comments: {
 		type: String,
 		input: "long_text",
@@ -242,6 +297,18 @@ var observationFormSchema = {
 		title: "[Defense] Percent of time on defense",
 		subtitle: "Approximate percent of time on defense"
 	},
+	intakes: {
+		type: String,
+		input: "checkbox",
+		placeholder: "Select all that apply",
+		data: {
+			"hatch": "Hatch intake",
+			"ball_ground": "Ball ground intake",
+			"ball_player_intake": "Ball player station intake"
+		},
+		title: "[Bot] Intake types",
+		subtitle: "Check all intakes that the robot has."
+	},
 	speed: {
 		type: String,
 		input: "dropdown",
@@ -254,27 +321,27 @@ var observationFormSchema = {
 		title: "[Bot] Speed compared to our robot (16 ft/second)",
 		subtitle: "Approximate this if you can"
 	},
-	endgame_successful_climb: {
+	endgame_climb: {
 		type: String,
 		input: "multiple_choice",
 		data: {
-			"yes": "Yes",
-			"no": "No",
-			"attempted": "Attempted and failed"
+			"level1": "Level 1",
+			"level2": "Level 2",
+			"level3": "Level 3",
+			"level1_fail": "Level 1 (attempted and failed)",
+			"level2_fail": "Level 2 (attempted and failed)",
+			"level3_fail": "Level 3 (attempted and failed)",
+			"fail": "Didn't attempt to climb",
+			"assisted": "Was assisted to climb"
 		},
-		title: "[Endgame] Successful climb?",
-		subtitle: "Did the robot climb successfully?"
+		title: "[Endgame] Climb level",
+		subtitle: "Which of the following applies to the robot at the end of the game?"
 	},
 	endgame_help_others_climb: {
 		type: String,
-		input: "multiple_choice",
-		data: {
-			"yes": "Yes",
-			"no": "No",
-			"attempted": "Attempted and failed"
-		},
-		title: "[Endgame] Helped other robots with climb with a bar?",
-		subtitle: "Did the robot help other robots climb successfully?"
+		input: "long_text",
+		title: "[Endgame] Helped other robots climb",
+		subtitle: "If the robot was able to assist climbing, describe exactly what they attempted and whether or not they were successful."
 	},
 	endgame_comments: {
 		type: String,
@@ -474,7 +541,17 @@ function getTableHandlebarsHelper(structure, res, options) {
 					var data_subcategory = tableStructure[category]["data"][subcategory]["data"];
 					var display = structure[observation][data_subcategory];
 					if (display == null || display == "" || display == "undefined" || display == "NaN") continue;
-					if ("data" in observationFormSchema[subcategory] && observationFormSchema[subcategory]["input"] !== "slider") display = observationFormSchema[subcategory]["data"][display];
+					if (observationFormSchema[subcategory]["input"] == "checkbox") {
+						var selectedChecks = display.split(",");
+						var checkboxFinalString = "";
+						for (var item in selectedChecks) {
+							checkboxFinalString += observationFormSchema[subcategory]["data"][selectedChecks[item]] + ", ";
+						}
+						checkboxFinalString = checkboxFinalString.substring(0, checkboxFinalString.length - 2);
+						display = checkboxFinalString;
+					} else if ("data" in observationFormSchema[subcategory] && observationFormSchema[subcategory]["input"] !== "slider") {
+						display = observationFormSchema[subcategory]["data"][display];
+					}
 					finalString += "<b>" + tableStructure[category]["data"][subcategory]["name"] + ": </b>" + display + "</b><br>";
 				}
 				finalString += "</td>";
