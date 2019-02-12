@@ -499,7 +499,7 @@ function getEditObservationHandlebarsHelper(observation, structure, observationI
 				finalString += '<select name="' + category + '" multiple>\n';
 				finalString += '<option value="" disabled selected>' + structure[category].placeholder + '</option>\n';
 				for (var option in structure[category].data) {
-					finalString += '<option value="' + option + '"' + (option == observation[category] ? ' checked="checked"' : '') + '>' + (structure[category].data)[option] + '</option>\n';
+					finalString += '<option value="' + option + '"' + (observation[category].split(",").includes(option) ? ' selected' : '') + '>' + (structure[category].data)[option] + '</option>\n';
 				}
 				finalString += '</select>\n';
 			} else if (structure[category].input == "number") {
