@@ -388,10 +388,10 @@ function getObservationFormHandlebarsHelper(structure, options) {
 	return finalString;
 }
 
-function getEditObservationHandlebarsHelper(observation, structure, options) {
+function getEditObservationHandlebarsHelper(observation, structure, observationID, options) {
 	var id = 0;
 
-	var finalString = '<form method="post" action="/scout/save">\n<div class="container">\n<div class="row">';
+	var finalString = '<form method="post" action="/scout/saveobservation/' + observationID + '">\n<div class="container">\n<div class="row">';
 	for (var category in structure) {
 		if (category == "events") continue;
 		finalString += '<p>';

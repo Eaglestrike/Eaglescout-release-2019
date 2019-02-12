@@ -204,6 +204,7 @@ router.get('/editobservation/:id', utils.ensureAuthenticated, function(req, res)
 				var structure = observationForm.getObservationFormStructure();
 				structure.events = events;
 				res.render('editobservation', {
+					observationID: req.params.id,
 					observation: observation,
 					structure: structure
 				});
@@ -212,17 +213,18 @@ router.get('/editobservation/:id', utils.ensureAuthenticated, function(req, res)
 	}
 });
 
-router.post('/newobservation/:id', utils.ensureAuthenticated, function(req, res) {
+router.post('/saveobservation/:id', utils.ensureAuthenticated, function(req, res) {
 	req.body.user = res.locals.user.email;
 	delete req.body.action;
-	var newObservation = new Observation(req.body);
 
-	Observation.createObservation(newObservation, function(err, user) {
+	Observation.findOneAndUpdate({
+		"_id": req.params.id
+	}, req.body, function (err) {
 		if (err) throw err;
-	});
 
-	req.flash('success_msg', 'Successfully created observation.');
-	res.redirect("/scout");
+		req.flash('success_msg', 'Successfully saved observation.');
+		res.redirect("/scout/list");
+	});
 });
 
 router.get('/', utils.ensureAuthenticated, function(req, res) {
