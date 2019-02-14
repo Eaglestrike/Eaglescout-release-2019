@@ -71,6 +71,10 @@
     <script src="/js/materialize.js"></script>
     <script src="/js/init.js"></script>
     <script>!function(t,e,n){if(n in e&&e[n]){var i,a=t.location,r=/^(a|html)$/i;t.addEventListener("click",function(t){if(t.target.classList.contains("increment_number_minus_button")||t.target.classList.contains("increment_number_plus_button"))t.preventDefault();else{for(i=t.target;!r.test(i.nodeName);)i=i.parentNode;"href"in i&&(i.href.indexOf("http")||~i.href.indexOf(a.host))&&(t.preventDefault(),a.href=i.href)}},!1)}}(document,window.navigator,"standalone");</script>
-
+    <script>
+    $(".open-modal").click(function() {
+        $("#delete-modal-link").attr("href", "/scout/delobservation/" + $(this).data("id"));
+    });
+    </script>
 </body>
 </html>

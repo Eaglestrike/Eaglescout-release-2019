@@ -530,6 +530,7 @@ function getTableHandlebarsHelper(structure, res, options) {
 	var finalString = "<table class='bordered'>\n<thead>\n";
 	for (var category in tableStructure) finalString += "<th>" + tableStructure[category]["name"] + "</th>\n";
 	finalString += "<th>Edit</th>\n";
+	finalString += "<th>Delete</th>\n";
 	finalString += "</thead>\n";
 	for (var observation in structure) {
 		finalString += "<tr>";
@@ -559,7 +560,8 @@ function getTableHandlebarsHelper(structure, res, options) {
 				finalString += "<td>" + structure[observation][data] + "</td>";
 			}
 		}
-		finalString += "<td><a class='waves-effect waves-light btn-large red" + (res.locals.user.admin || res.locals.user.email == structure[observation]["user"] ? "" : " disabled") + "' href='/scout/editobservation/" + structure[observation]["_id"] + "'><i class='material-icons left'>create</i>Edit</a></td>";
+		finalString += "<td><a class='waves-effect waves-light btn-large light-blue" + (res.locals.user.admin || res.locals.user.email == structure[observation]["user"] ? "" : " disabled") + "' href='/scout/editobservation/" + structure[observation]["_id"] + "'><i class='material-icons'>create</i></a></td>";
+		finalString += "<td><a class='waves-effect waves-light btn-large red modal-trigger open-modal" + (res.locals.user.admin || res.locals.user.email == structure[observation]["user"] ? "" : " disabled") + "' href='#confirm-delete-modal' data-id='" + structure[observation]["_id"] + "'><i class='material-icons'>delete</i></a></td>";
 		finalString += "</tr>";
 	}
 	finalString += "</table>";

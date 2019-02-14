@@ -213,6 +213,29 @@ router.get('/editobservation/:id', utils.ensureAuthenticated, function(req, res)
 	}
 });
 
+router.get('/delobservation/:id', utils.ensureAuthenticated, function(req, res) {
+	if (res.locals.user.admin) {
+		Observation.findOneAndRemove({
+			"_id": req.params.id
+		}, function(err, observation) {
+			if (err || observation == null) {
+				req.flash('error_msg', 'Unknown observation ID!');
+			}
+			res.redirect('/scout/list');
+		});
+	} else {
+		Observation.findOneAndRemove({
+			"_id": req.params.id,
+			user: res.locals.user.email
+		}, function(err, observation) {
+			if (err || observation == null) {
+				req.flash('error_msg', 'Insufficient permissions OR unknown observation ID!');
+			}
+			res.redirect('/scout/list');
+		});
+	}
+});
+
 router.post('/saveobservation/:id', utils.ensureAuthenticated, function(req, res) {
 	req.body.user = res.locals.user.email;
 	delete req.body.action;
