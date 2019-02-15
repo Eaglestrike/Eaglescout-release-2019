@@ -129,9 +129,13 @@ var tableStructure = {
 				name: "[Endgame] Climb level",
 				data: "endgame_climb"
 			},
-			endgame_help_others_climb: {
+			endgame_can_assist: {
 				name: "[Endgame] Helped other robots with climb",
-				data: "endgame_help_others_climb"
+				data: "endgame_can_assist"
+			},
+			endgame_assist: {
+				name: "[Endgame] Description of climb assist",
+				data: "endgame_assist"
 			},
 			endgame_comments: {
 				name: "[Endgame] Extra comments",
@@ -304,7 +308,7 @@ var observationFormSchema = {
 		data: {
 			"hatch": "Hatch intake",
 			"ball_ground": "Ball ground intake",
-			"ball_player_intake": "Ball player station intake"
+			"ball_player": "Ball player station intake"
 		},
 		title: "[Bot] Intake types",
 		subtitle: "Check all intakes that the robot has."
@@ -337,10 +341,21 @@ var observationFormSchema = {
 		title: "[Endgame] Climb level",
 		subtitle: "Which of the following applies to the robot at the end of the game?"
 	},
-	endgame_help_others_climb: {
+	endgame_can_assist: {
+		type: String,
+		input: "multiple_choice",
+		data: {
+			"yes": "Yes, can climb somehow",
+			"attempted": "Attempted to climb",
+			"no": "No, can't climb"
+		},
+		title: "[Endgame] Helped other robots with climb",
+		subtitle: "Just check the best option for assisting other robots to climb. You can describe it in the next question if they did."
+	},
+	endgame_assist: {
 		type: String,
 		input: "long_text",
-		title: "[Endgame] Helped other robots climb",
+		title: "[Endgame] Description of climb assist",
 		subtitle: "If the robot was able to assist climbing, describe exactly what they attempted and whether or not they were successful."
 	},
 	endgame_comments: {

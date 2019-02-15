@@ -1,15 +1,24 @@
 module.exports = {
 	multipliers: {
-		'switch_cubes': 60,
-		'scale_cubes': 100,
-		'exchange_cubes': 35,
-		'cubes_dropped': -20,
-		'climbed': 150,
-		'lifted': 350,
-		'auton_drove_forward': 50,
-		'auton_switch': 250, // TODO if we can do auto switch, then make this value 13
-		'auton_scale': 350,
-		'death_percent': -1000,
-		'speeds': 100
+		'hab_level': 99,
+		'hab_level_fail': 99,
+		'sandstorm_hatches': 99,
+		'sandstorm_balls': 99,
+		'teleop_hatch_cargo': 99,
+		'teleop_hatch_bottom': 99,
+		'teleop_hatch_middle': 99,
+		'teleop_hatch_top': 99,
+		'teleop_ball_cargo': 99,
+		'teleop_ball_bottom': 99,
+		'teleop_ball_middle': 99,
+		'teleop_ball_top': 99,
+		'hatch_intake': 99,
+		'ball_ground_intake': 99,
+		'ball_player_intake': 99,
+		'speeds': 99,
+		'climb_level': 99,
+		'climb_level_fail': 99,
+		'climb_assist': 99,
+		'death_percent': 99
 	}
 };

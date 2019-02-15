@@ -28,28 +28,92 @@ router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 			if (!(team in rankings)) {
 				// Custom stuff
 				rankings[team] = {
-					'switch_cubes': [],
-					'scale_cubes': [],
-					'exchange_cubes': [],
-					'cubes_dropped': [],
-					'climbed': false,
-					'lifted': false,
-					'auton_drove_forward': false,
-					'auton_switch': false,
-					'auton_scale': false,
-					'death_percent': [],
-					'speeds': []
+					'hab_level': [],
+					'hab_level_fail': [],
+					'sandstorm_hatches': [],
+					'sandstorm_balls': [],
+					'teleop_hatch_cargo': [],
+					'teleop_hatch_bottom': [],
+					'teleop_hatch_middle': [],
+					'teleop_hatch_top': [],
+					'teleop_ball_cargo': [],
+					'teleop_ball_bottom': [],
+					'teleop_ball_middle': [],
+					'teleop_ball_top': [],
+					'hatch_intake': false,
+					'ball_ground_intake': false,
+					'ball_player_intake': false,
+					'speeds': [],
+					'climb_level': [],
+					'climb_level_fail': [],
+					'climb_assist': [],
+					'death_percent': []
 				};
 			}
 			var time_robot_dead = observations[observation]['teleop_time_robot_died'] == "" ? 0 : parseInt(observations[observation]['teleop_time_robot_died']);
 			rankings[team]['death_percent'].push(time_robot_dead / 150);
-			// Only count switch, scale, and exchange if time dead is less than 45 seconds
-			if (time_robot_dead < 45) {
-				if (!isNaN(parseInt(observations[observation]['teleop_switch_cubes']))) rankings[team]['switch_cubes'].push(parseInt(observations[observation]['teleop_switch_cubes']));
-				if (!isNaN(parseInt(observations[observation]['teleop_scale_cubes']))) rankings[team]['scale_cubes'].push(parseInt(observations[observation]['teleop_scale_cubes']));
-				if (!isNaN(parseInt(observations[observation]['teleop_cubes_dropped']))) rankings[team]['cubes_dropped'].push(parseInt(observations[observation]['teleop_cubes_dropped']));
-				if (!isNaN(parseInt(observations[observation]['teleop_exchange_cubes']))) rankings[team]['exchange_cubes'].push(parseInt(observations[observation]['teleop_exchange_cubes']));
+
+			var hab_level = 0;
+			var hab_level_fail = 0;
+			switch (observations[observation]['sandstorm_hab_level']) {
+				case "level1": 
+				hab_level = 1;
+				break;
+				case "level2": 
+				hab_level = 2;
+				break;
+				case "level3": 
+				hab_level = 3;
+				break;
+				case "level1_fail": 
+				hab_level_fail = 1;
+				break;
+				case "level2_fail": 
+				hab_level_fail = 2;
+				break;
+				case "level3_fail": 
+				hab_level_fail = 3;
+				break;
 			}
+			rankings[team]['hab_level'].push(hab_level);
+			rankings[team]['hab_level_fail'].push(hab_level_fail);
+
+			if (!isNaN(parseInt(observations[observation]['sandstorm_hatches']))) rankings[team]['sandstorm_hatches'].push(parseInt(observations[observation]['sandstorm_hatches']));
+			if (!isNaN(parseInt(observations[observation]['sandstorm_balls']))) rankings[team]['sandstorm_balls'].push(parseInt(observations[observation]['sandstorm_balls']));
+			if (!isNaN(parseInt(observations[observation]['teleop_hatch_cargo']))) rankings[team]['teleop_hatch_cargo'].push(parseInt(observations[observation]['teleop_hatch_cargo']));
+			if (!isNaN(parseInt(observations[observation]['teleop_hatch_bottom']))) rankings[team]['teleop_hatch_bottom'].push(parseInt(observations[observation]['teleop_hatch_bottom']));
+			if (!isNaN(parseInt(observations[observation]['teleop_hatch_middle']))) rankings[team]['teleop_hatch_middle'].push(parseInt(observations[observation]['teleop_hatch_middle']));
+			if (!isNaN(parseInt(observations[observation]['teleop_hatch_top']))) rankings[team]['teleop_hatch_top'].push(parseInt(observations[observation]['teleop_hatch_top']));
+			if (!isNaN(parseInt(observations[observation]['teleop_ball_cargo']))) rankings[team]['teleop_ball_cargo'].push(parseInt(observations[observation]['teleop_ball_cargo']));
+			if (!isNaN(parseInt(observations[observation]['teleop_ball_bottom']))) rankings[team]['teleop_ball_bottom'].push(parseInt(observations[observation]['teleop_ball_bottom']));
+			if (!isNaN(parseInt(observations[observation]['teleop_ball_middle']))) rankings[team]['teleop_ball_middle'].push(parseInt(observations[observation]['teleop_ball_middle']));
+			if (!isNaN(parseInt(observations[observation]['teleop_ball_top']))) rankings[team]['teleop_ball_top'].push(parseInt(observations[observation]['teleop_ball_top']));
+
+			var climb_level = 0;
+			var climb_level_fail = 0;
+			switch (observations[observation]['endgame_climb']) {
+				case "level1":
+				climb_level = 1;
+				break;
+				case "level2": 
+				climb_level = 2;
+				break;
+				case "level3": 
+				climb_level = 3;
+				break;
+				case "level1_fail": 
+				climb_level_fail = 1;
+				break;
+				case "level2_fail": 
+				climb_level_fail = 2;
+				break;
+				case "level3_fail": 
+				climb_level_fail = 3;
+				break;
+			}
+			rankings[team]['climb_level'].push(climb_level);
+			rankings[team]['climb_level_fail'].push(climb_level_fail);
+
 			// Only count speed if time dead is less than 120 seconds
 			if (time_robot_dead < 120 && observations[observation]['speed'] != null && observations[observation]['speed'] != "") {
 				var speed;
@@ -66,34 +130,46 @@ router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 				}
 				rankings[team]['speeds'].push(speed);
 			}
-			if (observations[observation]['endgame_successful_climb'] == "yes") rankings[team]['climbed'] = true;
-			if (observations[observation]['endgame_help_others_climb'] == "yes") rankings[team]['lifted'] = true;
-			if (observations[observation]['auto_cross_line'] == "yes") rankings[team]['auton_drove_forward'] = true;
-			if (observations[observation]['auto_scale_cubes'] == "yes") rankings[team]['auton_scale'] = true;
-			if (observations[observation]['auto_switch_cubes'] == "yes") rankings[team]['auton_switch'] = true;
+
+			var assist;
+			switch (observations[observation]['endgame_can_assist']) {
+				case "yes": 
+				assist = 2;
+				break;
+				case "attempted": 
+				assist = 1;
+				break;
+				case "no": 
+				assist = 0;
+				break;
+			}
+			rankings[team]['climb_assist'].push(assist);
 		}
 
 		var points = [];
 		for (var ranking in rankings) {
 			var filter;
 			switch (req.query.filter) {
-				case "switch_cubes":
-					filter = filters.switch_cubes;
+				case "hab_level":
+					filter = filters.hab_level;
 					break;
-				case "scale_cubes":
-					filter = filters.scale_cubes;
+				case "hatches":
+					filter = filters.hatches;
 					break;
-				case "exchange_cubes":
-					filter = filters.exchange_cubes;
+				case "balls":
+					filter = filters.balls;
+					break;
+				case "intakes":
+					filter = filters.intakes;
+					break;
+				case "speeds":
+					filter = filters.speeds;
 					break;
 				case "climb":
 					filter = filters.climb;
 					break;
-				case "lift":
-					filter = filters.lift;
-					break;
-				case "speed":
-					filter = filters.speed;
+				case "assist":
+					filter = filters.assist;
 					break;
 				case "undefined":
 					filter = multipliers.multipliers;
@@ -122,12 +198,12 @@ router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 				});
 				res.render('teamranking', {
 					points: points,
-					switch_cubes: req.query.filter == "switch_cubes",
-					scale_cubes: req.query.filter == "scale_cubes",
-					exchange_cubes: req.query.filter == "exchange_cubes",
-					climb: req.query.filter == "climb",
-					lift: req.query.filter == "lift",
-					speed: req.query.filter == "speed"
+					hab_level: req.query.filter == "hab_level",
+					hatches: req.query.filter == "hatches",
+					balls: req.query.filter == "balls",
+					intakes: req.query.filter == "intakes",
+					speeds: req.query.filter == "speeds",
+					climb: req.query.filter == "climb"
 				});
 			} else {
 				TBA.getImage(points[index]["team"], image => {

@@ -50,12 +50,13 @@
         <div class="input-field col s12">
             <select id="ranking-filter-select">
                 <option value="">Default</option>
-                <option value="switch_cubes" {{#if switch_cubes}} selected {{/if}}>Cubes on Switch</option>
-                <option value="scale_cubes" {{#if scale_cubes}} selected {{/if}}>Cubes on Scale</option>
-                <option value="exchange_cubes" {{#if exchange_cubes}} selected {{/if}}>Cubes in Exchange</option>
+                <option value="hab_level" {{#if hab_level}} selected {{/if}}>HAB Level</option>
+                <option value="hatches" {{#if hatches}} selected {{/if}}>Hatches</option>
+                <option value="balls" {{#if balls}} selected {{/if}}>Balls</option>
+                <option value="intakes" {{#if intakes}} selected {{/if}}>Intakes</option>
+                <option value="speeds" {{#if speeds}} selected {{/if}}>Speeds</option>
                 <option value="climb" {{#if climb}} selected {{/if}}>Climbing</option>
-                <option value="lift" {{#if lift}} selected {{/if}}>Lifting other robots</option>
-                <option value="speed" {{#if speed}} selected {{/if}}>Speed</option>
+                <option value="climb" {{#if assist}} selected {{/if}}>Assisting</option>
             </select>
             <label>Select a Filter</label>
         </div>
