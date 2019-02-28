@@ -41,6 +41,7 @@ router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 					'teleop_ball_middle': [],
 					'teleop_ball_top': [],
 					'hatch_intake': false,
+					'hatch_ground_intake': false,
 					'ball_ground_intake': false,
 					'ball_player_intake': false,
 					'speeds': [],
@@ -62,17 +63,11 @@ router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 				case "level2": 
 				hab_level = 2;
 				break;
-				case "level3": 
-				hab_level = 3;
-				break;
 				case "level1_fail": 
 				hab_level_fail = 1;
 				break;
 				case "level2_fail": 
 				hab_level_fail = 2;
-				break;
-				case "level3_fail": 
-				hab_level_fail = 3;
 				break;
 			}
 			rankings[team]['hab_level'].push(hab_level);
@@ -88,6 +83,12 @@ router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 			if (!isNaN(parseInt(observations[observation]['teleop_ball_bottom']))) rankings[team]['teleop_ball_bottom'].push(parseInt(observations[observation]['teleop_ball_bottom']));
 			if (!isNaN(parseInt(observations[observation]['teleop_ball_middle']))) rankings[team]['teleop_ball_middle'].push(parseInt(observations[observation]['teleop_ball_middle']));
 			if (!isNaN(parseInt(observations[observation]['teleop_ball_top']))) rankings[team]['teleop_ball_top'].push(parseInt(observations[observation]['teleop_ball_top']));
+
+			var intakes_array = observations[observation]['intakes'].split(",");
+			rankings[team]['hatch_intake'] = intakes_array.includes("hatch");
+			rankings[team]['hatch_ground_intake'] = intakes_array.includes("hatch_ground");
+			rankings[team]['ball_ground_intake'] = intakes_array.includes("ball_ground");
+			rankings[team]['ball_player_intake'] = intakes_array.includes("ball_player");
 
 			var climb_level = 0;
 			var climb_level_fail = 0;

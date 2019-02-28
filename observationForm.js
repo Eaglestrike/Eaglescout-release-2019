@@ -177,10 +177,8 @@ var observationFormSchema = {
 		data: {
 			"level1": "Level 1",
 			"level2": "Level 2",
-			"level3": "Level 3",
 			"level1_fail": "Level 1 (attempted and failed)",
 			"level2_fail": "Level 2 (attempted and failed)",
-			"level3_fail": "Level 3 (attempted and failed)",
 			"fail": "Didn't move during sandstorm"
 		},
 		title: "[Sandstorm] HAB Level",
@@ -191,14 +189,14 @@ var observationFormSchema = {
 		input: "increment_number",
 		placeholder: "Number only",
 		title: "[Sandstorm] Number of hatches placed",
-		subtitle: "How many hatches did they score during teleop?"
+		subtitle: "How many hatches did they score during sandstorm? Note the level these hatches were placed in the \"Extra comments\" question below."
 	},
 	sandstorm_balls: {
 		type: String,
 		input: "increment_number",
 		placeholder: "Number only",
 		title: "[Sandstorm] Number of balls placed",
-		subtitle: "How many balls did they score during teleop?"
+		subtitle: "How many balls did they score during sandstorm? Note the level these balls were placed in the \"Extra comments\" question below."
 	},
 	sandstorm_comments: {
 		type: String,
@@ -306,7 +304,8 @@ var observationFormSchema = {
 		input: "checkbox",
 		placeholder: "Select all that apply",
 		data: {
-			"hatch": "Hatch intake",
+			"hatch": "Hatch regular intake",
+			"hatch_ground": "Hatch ground intake",
 			"ball_ground": "Ball ground intake",
 			"ball_player": "Ball player station intake"
 		},
@@ -322,7 +321,7 @@ var observationFormSchema = {
 			"fast": "Fast (greater than 15 ft/second)",
 		},
 		placeholder: "Select one",
-		title: "[Bot] Speed compared to our robot (16 ft/second)",
+		title: "[Bot] Speed compared to our robot (18 ft/second)",
 		subtitle: "Approximate this if you can"
 	},
 	endgame_climb: {
@@ -345,9 +344,9 @@ var observationFormSchema = {
 		type: String,
 		input: "multiple_choice",
 		data: {
-			"yes": "Yes, can climb somehow",
-			"attempted": "Attempted to climb",
-			"no": "No, can't climb"
+			"yes": "Did assist",
+			"attempted": "Attempted to assist",
+			"no": "Did not assist"
 		},
 		title: "[Endgame] Helped other robots with climb",
 		subtitle: "Just check the best option for assisting other robots to climb. You can describe it in the next question if they did."
