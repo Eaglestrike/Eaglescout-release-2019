@@ -262,6 +262,7 @@ router.get('/editobservation/:id', utils.ensureAuthenticated, function(req, res)
 				var structure = observationForm.getObservationFormStructure();
 				structure.events = events;
 				res.render('editobservation', {
+					observationID: req.params.id,
 					observation: observation,
 					structure: structure
 				});
@@ -316,6 +317,8 @@ router.get('/delobservation/:id', utils.ensureAuthenticated, function(req, res) 
 router.post('/saveobservation/:id', utils.ensureAuthenticated, function(req, res) {
 	req.body.user = res.locals.user.email;
 	delete req.body.action;
+
+	console.log(req.body);
 
 	Observation.findOneAndUpdate({
 		"_id": req.params.id
