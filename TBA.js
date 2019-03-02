@@ -4,7 +4,7 @@ const utils = require("./utils");
 const keys = require("./keys");
 
 module.exports.getEvents = function(callback) {
-	const url = config.TBA_URL + "/events/2018/simple?X-TBA-Auth-Key=" + keys.TBA_API_KEY;
+	const url = config.TBA_URL + "/events/2019/simple?X-TBA-Auth-Key=" + keys.TBA_API_KEY;
 	https.get(url, res => {
 		var body = "";
 		res.setEncoding("utf8");
