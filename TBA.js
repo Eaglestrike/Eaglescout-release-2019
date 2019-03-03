@@ -34,7 +34,7 @@ module.exports.getEvents = function(callback) {
 }
 
 module.exports.getImage = function(team, callback) {
-	const url = config.TBA_URL + "/team/frc" + team + "/media/2018?X-TBA-Auth-Key=" + keys.TBA_API_KEY;
+	const url = config.TBA_URL + "/team/frc" + team + "/media/2019?X-TBA-Auth-Key=" + keys.TBA_API_KEY;
 	https.get(url, res => {
 		var body = "";
 		res.setEncoding("utf8");
