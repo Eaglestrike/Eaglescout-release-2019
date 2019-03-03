@@ -84,11 +84,18 @@ router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 			if (!isNaN(parseInt(observations[observation]['teleop_ball_middle']))) rankings[team]['teleop_ball_middle'].push(parseInt(observations[observation]['teleop_ball_middle']));
 			if (!isNaN(parseInt(observations[observation]['teleop_ball_top']))) rankings[team]['teleop_ball_top'].push(parseInt(observations[observation]['teleop_ball_top']));
 
-			var intakes_array = observations[observation]['intakes'].split(",");
-			rankings[team]['hatch_intake'] = intakes_array.includes("hatch");
-			rankings[team]['hatch_ground_intake'] = intakes_array.includes("hatch_ground");
-			rankings[team]['ball_ground_intake'] = intakes_array.includes("ball_ground");
-			rankings[team]['ball_player_intake'] = intakes_array.includes("ball_player");
+			rankings[team]['hatch_intake'] = false;
+			rankings[team]['hatch_ground_intake'] = false;
+			rankings[team]['ball_ground_intake'] = false;
+			rankings[team]['ball_player_intake'] = false;
+
+			if (observations[observation]['intakes'] !== undefined) {
+				var intakes_array = observations[observation]['intakes'].split(",");
+				rankings[team]['hatch_intake'] = intakes_array.includes("hatch");
+				rankings[team]['hatch_ground_intake'] = intakes_array.includes("hatch_ground");
+				rankings[team]['ball_ground_intake'] = intakes_array.includes("ball_ground");
+				rankings[team]['ball_player_intake'] = intakes_array.includes("ball_player");
+			}
 
 			var climb_level = 0;
 			var climb_level_fail = 0;
