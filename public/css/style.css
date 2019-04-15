@@ -103,6 +103,12 @@ input[type=range] + .thumb.active .value {
 	font-size: 1.7em;
 }
 
+#team-search {
+	text-align: center;
+	font-size: 2em;
+	padding: 15px 0;
+}
+
 @media all and (max-width: 768px) {
 	span.bullet {
 		display: none;

@@ -26,3 +26,13 @@ $(".increment_number_plus_button").click(function() {
 	var element_for = $(this).data("for");
 	$('input[name="' + element_for + '"]').val(parseInt($('input[name="' + element_for + '"]').val()) + 1);
 });
+
+$("#team-search").keypress(function(e) {
+    if (e.which == 13) {
+        window.location.replace("/scout/list/" + $("#team-search").val());
+    }
+});
+
+$("#team-search-button").click(function() {
+	window.location.replace("/scout/list/" + $("#team-search").val());
+});
