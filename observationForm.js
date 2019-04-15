@@ -543,8 +543,8 @@ function getEditObservationHandlebarsHelper(observation, structure, observationI
 function getTableHandlebarsHelper(structure, res, options) {
 	var finalString = "<table class='bordered'>\n<thead>\n";
 	for (var category in tableStructure) finalString += "<th>" + tableStructure[category]["name"] + "</th>\n";
-	finalString += "<th>Edit</th>\n";
-	finalString += "<th>Delete</th>\n";
+	finalString += "<th class='no-mobile'>Edit</th>\n";
+	finalString += "<th class='no-mobile'>Delete</th>\n";
 	finalString += "</thead>\n";
 	for (var observation in structure) {
 		finalString += "<tr>";
@@ -570,12 +570,14 @@ function getTableHandlebarsHelper(structure, res, options) {
 					finalString += "<b>" + tableStructure[category]["data"][subcategory]["name"] + ": </b>" + display + "</b><br>";
 				}
 				finalString += "</td>";
+			} else if (category == "team") {
+				finalString += "<td><a href='/scout/list/" + structure[observation][data] + "'>" + structure[observation][data] + "</a></td>";
 			} else {
 				finalString += "<td>" + structure[observation][data] + "</td>";
 			}
 		}
-		finalString += "<td><a class='waves-effect waves-light btn-large light-blue" + (res.locals.user.admin || res.locals.user.email == structure[observation]["user"] ? "" : " disabled") + "' href='/scout/editobservation/" + structure[observation]["_id"] + "'><i class='material-icons'>create</i></a></td>";
-		finalString += "<td><a class='waves-effect waves-light btn-large red modal-trigger open-modal" + (res.locals.user.admin || res.locals.user.email == structure[observation]["user"] ? "" : " disabled") + "' href='#confirm-delete-modal' data-id='" + structure[observation]["_id"] + "'><i class='material-icons'>delete</i></a></td>";
+		finalString += "<td class='no-mobile'><a class='waves-effect waves-light btn-large light-blue" + (res.locals.user.admin || res.locals.user.email == structure[observation]["user"] ? "" : " disabled") + "' href='/scout/editobservation/" + structure[observation]["_id"] + "'><i class='material-icons'>create</i></a></td>";
+		finalString += "<td class='no-mobile'><a class='waves-effect waves-light btn-large red modal-trigger open-modal" + (res.locals.user.admin || res.locals.user.email == structure[observation]["user"] ? "" : " disabled") + "' href='#confirm-delete-modal' data-id='" + structure[observation]["_id"] + "'><i class='material-icons'>delete</i></a></td>";
 		finalString += "</tr>";
 	}
 	finalString += "</table>";
@@ -588,13 +590,17 @@ function getRankingHandlebarsHelper(structure, options) {
 	for (var observation in structure) {
 		finalString += "<tr>";
 		for (var category in rankingStructure) {
+			var data = rankingStructure[category]["data"];
 			if (category == "place") {
 				finalString += "<td>" + (parseInt(observation) + 1) + "</td>";
+			} else if (category == "team") {
+				finalString += "<td><a href='/scout/list/" + structure[observation][data] + "'>" + structure[observation][data] + "</a></td>";
 				continue;
+			} else if (category == "image") {
+				finalString += "<td class='no-mobile'>" + (structure[observation][data] == null ? "none" : "<a href='" + structure[observation][data] + "' target='_blank'><img src='" + structure[observation][data] + "' style='height: 200px'></img></a>") + "</td>";
+			} else {
+				finalString += "<td>" + structure[observation][data] + "</td>";
 			}
-			var data = rankingStructure[category]["data"];
-			if (category == "image") finalString += "<td class='no-mobile'>" + (structure[observation][data] == null ? "none" : "<a href='" + structure[observation][data] + "' target='_blank'><img src='" + structure[observation][data] + "' style='height: 200px'></img></a>") + "</td>";
-			else finalString += "<td>" + structure[observation][data] + "</td>";
 		}
 		finalString += "</tr>";
 	}

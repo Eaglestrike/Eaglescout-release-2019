@@ -20,6 +20,21 @@ router.get('/list', utils.ensureAuthenticated, function(req, res) {
 	});
 });
 
+router.get('/list/:team', utils.ensureAuthenticated, function(req, res) {
+	Observation.find({
+		team: req.params.team
+	}, function(err, observations) {
+		observations.sort(function(a,b) {
+			return a.team - b.team;
+		});
+		res.render('list', {
+			observations: observations,
+			res: res,
+			team: req.params.team
+		});
+	});
+});
+
 router.get('/teamranking', utils.ensureAuthenticated, function(req, res) {
 	Observation.find({}, function(err, observations) {
 		var rankings = {};
